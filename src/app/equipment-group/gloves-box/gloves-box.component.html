@@ -1,0 +1,17 @@
+<div class="equipment-box gloves-box" (click)="toggleList()">
+    <img
+      [src]="selectedItem?.image || 'assets/placeholder.png'"
+      alt="Gloves Item"
+      class="equipment-image"
+    />
+    @if (showList) {
+      <div class="equipment-list">
+        @for (item of list; track item.name) {
+          <div (click)="selectItem(item)" class="equipment-item">
+            <img [src]="item.image" [alt]="item.name" />
+            <span>{{ item.name }}</span>
+          </div>
+        }
+      </div>
+    }
+</div>

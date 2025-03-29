@@ -1,0 +1,8 @@
+.equipment-box {
+    position: relative;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;  
+
+  }

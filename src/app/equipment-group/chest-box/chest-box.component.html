@@ -1,0 +1,45 @@
+<div class="equipment-box chest-box">
+    <img
+      [src]="selectedItem?.image || 'assets/placeholder.png'"
+      alt="Chest Item"
+      class="equipment-image"
+    />
+    @if (showList) {
+      <div class="equipment-list">
+        @for (item of listCharacters; track item.name) {
+          <div (click)="selectItem(item)" class="equipment-item">
+            <img [src]="item.image" [alt]="item.name" />
+            <span>{{ item.name }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (showContextMenu && selectedItem) {
+      <div class="modal-box">
+        <div class="modal-content">
+          <h3>{{ selectedItem.name || 'No Item Selected' }}</h3>
+          <img [src]="selectedItem.image" [alt]="selectedItem.name" class="modal-image" />
+            <div class = "rarity-select">
+              <label for="rarity-select">Rarity:</label>
+              <select id="rarity-select" [(ngModel)]="selectedRarity" (ngModelChange)="onChangeRarity($event)">
+                @for (list of rarityHead; track $index) {
+                  <option [value]="$index">{{ list }}</option>
+                }
+              </select>
+            </div>
+            <div class = "rating-select">
+              <label for="rating-select">Rating:</label>
+              <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
+                @for (rating of listRating; track $index) {
+                  <option [value]="$index">{{ rating }}</option>
+                }
+              </select>
+            </div>
+        </div>
+        
+      <div class="button-close">
+        <button (click)="showContextMenu = false">Close</button>
+      </div>
+      </div>
+    }
+</div>

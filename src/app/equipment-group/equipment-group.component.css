@@ -1,0 +1,11 @@
+.equipment-boxes {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  width: 400px;
+  height: 600px;
+  align-items: center;
+  justify-content: space-evenly;
+  position:   absolute;
+  left: 1250px;
+}

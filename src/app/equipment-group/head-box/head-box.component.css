@@ -1,0 +1,67 @@
+.equipment-box {
+  position: relative;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+
+.equipment-box {
+  position: relative;
+  cursor: pointer;
+}
+
+.equipment-image {
+  width: 100px; /* Adjust as needed */
+  height: 100px;
+}
+
+.equipment-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.equipment-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.equipment-item img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.modal-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-image {
+  width: 50px;
+  height: 50px;
+  margin: 10px 0;
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+}

@@ -1,0 +1,18 @@
+<div class="character-box">
+    <!-- Display the selected character's image -->
+    <img
+      [src]="selectedCharacterImage"
+      alt="Selected Character"
+      class="character-image"
+    />
+  
+    <!-- Dropdown or list to select a character -->
+    <div class="character-selection">
+      <label for="character-select">Choose a character:</label>
+      <select id="character-select" (change)="onChange($event)">
+        @for (list of characterClasses; track $index) {
+          <option [value]="$index">{{ list }}</option>
+        }
+      </select>
+    </div>
+  </div>
