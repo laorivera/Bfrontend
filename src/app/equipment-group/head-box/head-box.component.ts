@@ -25,8 +25,8 @@ export class HeadBoxComponent {
   listCharacters: ListItem[] = [];
   listRating: number[] = [];
   showContextMenu = false;
+  listEnchantments: string[] = [];
   selectedRatingIndex: number = 0;
-
 
   //array rarity 
   rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
@@ -43,13 +43,13 @@ export class HeadBoxComponent {
   @Input()
   set classSelection(value: number) {
     this._classSelection = value;
-    this.fetchList(`http://127.0.0.1:8080/helmetlist/${this._classSelection}`);
+    this.fetchList_Character(`http://127.0.0.1:8080/helmetlist/${this._classSelection}`);
   }
   get classSelection(): number {
     return this._classSelection;
   }
   //
-  fetchList(url: string) {
+  fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listCharacters = response.list;
@@ -68,19 +68,19 @@ export class HeadBoxComponent {
     this.selectedRarity = 0;
     this.listRating = [];
   }
-
+  /*
   toggleList() {
     this.showList = !this.showList; 
-  }
+  }*/
 
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
     this.itemSelected.emit(item.name);
-    this.showList = false;
+    this.showList = !this.showList;
   }
 
-  fetchRating(url: string) {
+  fetchList_Rating(url: string) {
     this.http.get<{ list: number[] }>(url).subscribe({
       next: (response) => {
         this.listRating = response.list
@@ -89,6 +89,18 @@ export class HeadBoxComponent {
       },
       error: (err) => {
         console.error('Error fetching head list:', err);
+      },
+    });
+  }
+
+  fetchEnchantment_List(url: string) {
+    this.http.get<{ [key: string]: string[] }>(url).subscribe({  // Remove `list` from type
+      next: (response) => { 
+        this.listEnchantments = response['listname_uncommon'];  // Should now log the array correctly
+        console.log(this.listEnchantments);
+      },
+      error: (err) => {
+        console.error('Error fetching enchantment list:', err);
       },
     });
   }
@@ -115,10 +127,12 @@ export class HeadBoxComponent {
   }
 
   onChangeRarity(event: number) {
-    this.selectedRarity = +event
+    this.selectedRarity = +event;
     console.log(this.selectedRarity);
+    this.rarityBoxColor();
     if (this.selectedItem?.name) {
-      this.fetchRating(`http://127.0.0.1:8080/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`);
+      this.fetchList_Rating(`http://127.0.0.1:8080/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`);
+      this.fetchEnchantment_List(`http://127.0.0.1:8080/enchamentlistarmor/`);
     }
     this.raritySelected.emit(this.selectedRarity);
     console.log(this.selectedRarity);
@@ -131,5 +145,19 @@ export class HeadBoxComponent {
     console.log(this.selectedRating);
     this.ratingSelected.emit(this.selectedRating);
   }
+
+  onChangeEnchantment(event: string){}
   
+  rarityBoxColor(): string {
+    switch (this.selectedRarity) {
+      case 1: return 'rarity-poor'
+      case 2: return 'rarity-common';
+      case 3: return 'rarity-uncommon';
+      case 4: return 'rarity-rare';
+      case 5: return 'rarity-epic';
+      case 6: return 'rarity-legendary';
+      case 7: return 'rarity-unique';
+      default: return 'rarity-default';
+    }
+  }
 }

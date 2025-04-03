@@ -27,16 +27,17 @@
                 }
               </select>
             </div>
-            <div class = "rating-select">
-              <label for="rating-select">Rating:</label>
-              <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
-                @for (rating of listRating; track $index) {
-                  <option [value]="$index">{{ rating }}</option>
-                }
-              </select>
-            </div>
+            @if(selectedRarity){
+              <div class = "enchantment-select">
+                <label for="enchantment-select">Enchantment:</label>
+                <select id="enchantment-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeEnchantment($event)">
+                  @for (list of listEnchantments ; track $index) {
+                    <option [value]="$index">{{ list }}</option>
+                   } 
+                 </select>
+              </div>
+            }
         </div>
-        
       <div class="button-close">
         <button (click)="showContextMenu = false">Close</button>
       </div>

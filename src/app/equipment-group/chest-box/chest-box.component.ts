@@ -38,13 +38,13 @@ export class ChestBoxComponent {
   @Input()
   set classSelection(value: number) {
     this._classSelection = value;
-    this.fetchList(`http://127.0.0.1:8080/chestlist/${this._classSelection}`);
+    this.fetchList_Character(`http://127.0.0.1:8080/chestlist/${this._classSelection}`);
   }
   get classSelection(): number {
     return this._classSelection;
   }
 
-  fetchList(url: string) {
+  fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listCharacters = response.list;
@@ -75,7 +75,7 @@ export class ChestBoxComponent {
     this.showList = false;
   }
 
-  fetchRating(url: string) {
+  fetchList_Rating(url: string) {
     this.http.get<{ list: number[] }>(url).subscribe({
       next: (response) => {
         this.listRating = response.list
@@ -112,7 +112,7 @@ export class ChestBoxComponent {
     this.selectedRarity = +event
     console.log(this.selectedRarity);
     if (this.selectedItem?.name) {
-      this.fetchRating(`http://127.0.0.1:8080/chestratinglist/?itemchest=${this.selectedItem.name}&rarityselect_chest=${this.selectedRarity}`);
+      this.fetchList_Rating(`http://127.0.0.1:8080/chestratinglist/?itemchest=${this.selectedItem.name}&rarityselect_chest=${this.selectedRarity}`);
     }
     this.raritySelected.emit(this.selectedRarity);
     console.log(this.selectedRarity);
@@ -124,6 +124,19 @@ export class ChestBoxComponent {
     this.selectedRating = this.listRating[index];
     console.log(this.selectedRating);
     this.ratingSelected.emit(this.selectedRating);
+  }
+
+  rarityBoxColor(): string {
+    switch (this.selectedRarity) {
+      case 1: return 'rarity-poor'
+      case 2: return 'rarity-common';
+      case 3: return 'rarity-uncommon';
+      case 4: return 'rarity-rare';
+      case 5: return 'rarity-epic';
+      case 6: return 'rarity-legendary';
+      case 7: return 'rarity-unique';
+      default: return 'rarity-default';
+    }
   }
   
 }
@@ -143,7 +156,7 @@ export class ChestBoxComponent {
     set classSelection(value: number) {
       console.log('Class selection updated:', value); // Debug log
       this._classSelection = value;
-      this.fetchList(`http://127.0.0.1:8080/chestlist/${this._classSelection}`);
+      this.fetchList_Characters(`http://127.0.0.1:8080/chestlist/${this._classSelection}`);
     }
     get classSelection(): number {
       return this._classSelection;
@@ -151,7 +164,7 @@ export class ChestBoxComponent {
 
     @Output() itemSelected = new EventEmitter<string>();
 
-    fetchList(url: string) {
+    fetchList_Characters(url: string) {
       console.log('Fetching list from:', url); // Debug log
       this.http.get<{ list: ListItem[] }>(url).subscribe({
         next: (response) => {

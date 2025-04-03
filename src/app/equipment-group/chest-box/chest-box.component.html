@@ -1,4 +1,4 @@
-<div class="equipment-box chest-box">
+<div class="equipment-box chest-box" [ngClass]="rarityBoxColor()">
     <img
       [src]="selectedItem?.image || 'assets/placeholder.png'"
       alt="Chest Item"
@@ -27,14 +27,22 @@
                 }
               </select>
             </div>
-            <div class = "rating-select">
-              <label for="rating-select">Rating:</label>
-              <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
-                @for (rating of listRating; track $index) {
-                  <option [value]="$index">{{ rating }}</option>
-                }
-              </select>
-            </div>
+                <div class = "rating-select">
+                  <label for="rating-select">Rating:</label>
+                  <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
+                      @for (rating of listRating; track $index) {
+                            <option [value]="$index">{{ rating }}</option>
+                        }
+                  </select>
+                </div>
+                  <div class = "enchantment-select">
+                    <label for="enchant-select">Enchantment Uncommon:</label>
+                      <select id="enchant-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
+                      @for (rating of listRating; track $index) {
+                            <option [value]="$index">{{ rating }}</option>
+                        }
+                    </select>
+                </div>
         </div>
         
       <div class="button-close">

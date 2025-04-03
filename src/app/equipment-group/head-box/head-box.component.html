@@ -1,4 +1,4 @@
-<div class="equipment-box head-box">
+<div class="equipment-box head-box" [ngClass]="rarityBoxColor()">
     <img
       [src]="selectedItem?.image || 'assets/placeholder.png'"
       alt="Head Item"
@@ -35,8 +35,17 @@
                 }
               </select>
             </div>
+            @if(selectedRarity){
+              <div class = "enchantment-select">
+                <label for="enchantment-select">Enchantment:</label>
+                <select id="enchantment-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeEnchantment($event)">
+                  @for (list of listEnchantments ; track $index) {
+                    <option [value]="$index">{{ list }}</option>
+                   } 
+                 </select>
+              </div>
+            }
         </div>
-        
       <div class="button-close">
         <button (click)="showContextMenu = false">Close</button>
       </div>

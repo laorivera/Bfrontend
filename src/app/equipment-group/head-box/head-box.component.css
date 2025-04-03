@@ -1,6 +1,6 @@
 .equipment-box {
   position: relative;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   cursor: pointer;
   width: 100px;
   height: 100px;
@@ -64,4 +64,32 @@
 button {
   margin-top: 10px;
   padding: 5px 10px;
+}
+
+.rarity-poor {
+  border: 2px solid #473737; /* grey */
+}
+
+.rarity-common {
+  border: 2px solid #f3eeee; /* white */
+}
+
+.rarity-uncommon {
+  border: 2px solid #90ee90; /* Light green */
+}
+
+.rarity-rare {
+  border: 2px solid #87ceeb; /* Sky blue */
+}
+
+.rarity-epic {
+  border: 2px solid #9370db; /* Medium purple */
+}
+
+.rarity-legendary {
+  border: 2px solid #ffa500; /* Orange */
+}
+
+.rarity-unique {
+  border: 2px solid #ece7b4ec;
 }

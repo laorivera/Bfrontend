@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { HeadBoxComponent } from './head-box/head-box.component';
 import { ChestBoxComponent } from './chest-box/chest-box.component';
 import { GlovesBoxComponent } from './gloves-box/gloves-box.component';
+import { PantsBoxComponent } from './pants-box/pants-box.component';
+import { NecklaceBoxComponent } from './necklace-box/necklace-box.component';
 import { CharacterBoxComponent } from './character-box/character-box.component';
 
 @Component({
@@ -14,6 +16,8 @@ import { CharacterBoxComponent } from './character-box/character-box.component';
     HeadBoxComponent,
     ChestBoxComponent,
     GlovesBoxComponent,
+    PantsBoxComponent,
+    NecklaceBoxComponent,
     CharacterBoxComponent
   ],
   templateUrl: './equipment-group.component.html',
@@ -27,6 +31,8 @@ export class BoxesGroupComponent {
   @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
   @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
   @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
+  @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
+  @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
 
   selectedItems: { [key: string]: string } = {}; 
   selectedRarites: {[key: string]: string} = {}; 
@@ -41,12 +47,13 @@ export class BoxesGroupComponent {
     this.headBoxes.forEach(component => component.resetSelection());
     this.chestBoxes.forEach(component => component.resetSelection());
     this.glovesBoxes.forEach(component => component.resetSelection());
+    this.pantsBoxes.forEach(component => component.resetSelection());
+    this.necklaceBoxes.forEach(component => component.resetSelection());
     this.selectedItems = {};
     this.selectedRarites = {}; // reset rarity
     this.selectedRatings = {}; // reset rating
     this.calculateCharacter(); // funcion calcula character base
   }
-
 
   onItemSelected_Helmet(slot: string, itemName: string) {
     if (this.selectedRarites['rarityselect_helmet']){
@@ -61,7 +68,7 @@ export class BoxesGroupComponent {
 
   onItemSelected_Chest(slot: string, itemName: string) {
     if (this.selectedRarites['rarityselect_chest']){
-      this.selectedRarites['rarityselect_helmet'] = this.selectedRarites[''] = "";
+      this.selectedRarites['rarityselect_chest'] = this.selectedRarites[''] = "";
       }
     if (this.selectedRatings['armorrating_chest']){
       this.selectedRatings['armorrating_chest'] = this.selectedRatings['']
@@ -71,9 +78,36 @@ export class BoxesGroupComponent {
   }
 
   onItemSelected_Gloves(slot: string, itemName: string) {
-    //this.selectedItems[slot] = itemName;
-    //console.log(this.selectedItems)
-    //this.calculateEquipment(); 
+    if (this.selectedRarites['rarityselect_gloves']){
+      this.selectedRarites['rarityselect_gloves'] = this.selectedRarites[''] = "";
+      }
+    if (this.selectedRatings['armorrating_gloves']){
+      this.selectedRatings['armorrating_gloves'] = this.selectedRatings['']
+    }
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+
+  onItemSelected_Pants(slot: string, itemName: string) {
+    if (this.selectedRarites['rarityselect_pants']){
+      this.selectedRarites['rarityselect_pants'] = this.selectedRarites[''] = "";
+      }
+    if (this.selectedRatings['armorrating_pants']){
+      this.selectedRatings['armorrating_pants'] = this.selectedRatings['']
+    }
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+
+  onItemSelected_Necklace(slot: string, itemName: string) {
+    if (this.selectedRarites['rarityselect_necklace']){
+      this.selectedRarites['rarityselect_necklace'] = this.selectedRarites[''] = "";
+      }
+    if (this.selectedRatings['armorrating_necklace']){
+      this.selectedRatings['armorrating_necklace'] = this.selectedRatings['']
+    }
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
   }
 
   onRaritySelected(slot: string, rarity: number){ 
@@ -92,7 +126,7 @@ export class BoxesGroupComponent {
     this.calculateEquipment();
   }
 
-  // Calculate equipment
+  // API CALL TO CALCULATE EQUIPMENT
   calculateEquipment() {
     // Construct query string from selected items
     const params = new URLSearchParams();
@@ -120,6 +154,7 @@ export class BoxesGroupComponent {
     });
   }
 
+  // API call to calculate character
   calculateCharacter() {
     const url = `http://127.0.0.1:8080/charbuilder/${this.selectedCharacterIndex}`;
     
