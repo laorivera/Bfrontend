@@ -19,14 +19,39 @@ export class HeadBoxComponent {
   //store values
   private _classSelection: number = 0;
   showList = false;
+  i: number = 0; // counter
   selectedItem: ListItem | null = null;
   selectedRarity: number = 0;
   selectedRating: number = 0;
+  //selectedEnchantments['uncommon'].type);: string = "";
+  //selectedEnchantments['uncommon'].value: number = 0;
+  //selectedEnchantment_Rare: string = "";
+ // selectedEnchantValue_Rare: number = 0;
+  selectedEnchantments: { [rarity: string]: { type: string, value: number } } = {
+      uncommon: { type: '', value: 0 },
+      rare: { type: '', value: 0 },
+      epic: { type: '', value: 0 },
+      legendary: { type: '', value: 0 },
+      unique: { type: '', value: 0 }
+  };
+
+  enchantmentLists: { [rarity: string]: { types: string[], values: number[] } } = {
+    uncommon: { types: [], values: [] },
+    rare: { types: [], values: [] },
+    epic: { types: [], values: [] },
+    legendary: { types: [], values: [] },
+    unique: { types: [], values: [] }
+  };
+
   listCharacters: ListItem[] = [];
   listRating: number[] = [];
+  //listEnchantment_TypeUncommon: string[] = [];
+  //enchantmentLists['uncommon'].types);: number[] = [];
+  //listEnchantment_TypeRare: string[] = [];
+  //listEnchantment_ValueRare: number[] = [];
   showContextMenu = false;
-  listEnchantments: string[] = [];
   selectedRatingIndex: number = 0;
+
 
   //array rarity 
   rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
@@ -35,6 +60,17 @@ export class HeadBoxComponent {
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() raritySelected = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeUncommon = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueUncommon = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeRare = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueRare = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeEpic = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueEpic = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeLegendary = new EventEmitter<string>();  
+  @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
+  
 
   // HTTP METHOD 
   constructor(private http: HttpClient) {}
@@ -62,11 +98,16 @@ export class HeadBoxComponent {
   }
   // reset selecciones
   resetSelection() {
+    this.i = 0;
     this.selectedItem = null;
     this.showList = false;
     this.showContextMenu = false;
     this.selectedRarity = 0;
     this.listRating = [];
+    for (const rarity in this.selectedEnchantments) {
+      this.selectedEnchantments[rarity] = { type: '', value: 0 };
+    }
+    
   }
   /*
   toggleList() {
@@ -78,6 +119,7 @@ export class HeadBoxComponent {
     this.selectedItem = item;
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
+  
   }
 
   fetchList_Rating(url: string) {
@@ -96,8 +138,26 @@ export class HeadBoxComponent {
   fetchEnchantment_List(url: string) {
     this.http.get<{ [key: string]: string[] }>(url).subscribe({  // Remove `list` from type
       next: (response) => { 
-        this.listEnchantments = response['listname_uncommon'];  // Should now log the array correctly
-        console.log(this.listEnchantments);
+        this.enchantmentLists['uncommon'].types = response['listname_uncommon'];
+        if (this.enchantmentLists['uncommon'].types = response['listname_uncommon'])  {
+          this.enchantmentLists['rare'].types = response['listname_rare'];
+        }
+        //this.enchantmentLists['epic'].types = response['listname_epic'];
+        // this.enchantmentLists['legendary'].types = response['listname_legendary'];
+        //this.enchantmentLists['unique'].types = response['listname_unique']; 
+      },// Should now log the array correctly
+      error: (err) => {
+        console.error('Error fetching enchantment list:', err);
+      },
+    });
+  }
+
+  fetchEnchantment_Value(url: string){
+    this.http.get<{[key: string]: number[]}>(url).subscribe({
+      next: (response) => {
+      
+      this.enchantmentLists['uncommon'].values = response['listvalue_uncommon'];
+      this.enchantmentLists['rare'].values = response['listvalue_rare'];
       },
       error: (err) => {
         console.error('Error fetching enchantment list:', err);
@@ -127,12 +187,14 @@ export class HeadBoxComponent {
   }
 
   onChangeRarity(event: number) {
+    this.selectedEnchantments['uncommon'].value = 0
+    this.selectedEnchantments['rare'].value = 0;
     this.selectedRarity = +event;
     console.log(this.selectedRarity);
     this.rarityBoxColor();
     if (this.selectedItem?.name) {
       this.fetchList_Rating(`http://127.0.0.1:8080/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`);
-      this.fetchEnchantment_List(`http://127.0.0.1:8080/enchamentlistarmor/`);
+      this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem.name}`);
     }
     this.raritySelected.emit(this.selectedRarity);
     console.log(this.selectedRarity);
@@ -140,17 +202,46 @@ export class HeadBoxComponent {
 
   onChangeRating(event: number) {
     //const target = event.target as HTMLSelectElement;
-    const index = +event
+    const index = +event;
     this.selectedRating = this.listRating[index];
     console.log(this.selectedRating);
     this.ratingSelected.emit(this.selectedRating);
   }
 
-  onChangeEnchantment(event: string){}
-  
+  onChangeEnchantment_TypeUncommon(event: string){
+    this.selectedEnchantments['uncommon'].type = event;
+    if (this.selectedEnchantments['uncommon'].value > 0) {
+      this.selectedEnchantments['uncommon'].value = 0;
+    }
+    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}`)
+    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}`)
+    this.enchantmentSelected_TypeUncommon.emit(this.selectedEnchantments['uncommon'].type);
+  }
+  onChangeEnchantment_ValueUncommon(event: number){
+    console.log(this.enchantmentLists['uncommon'].types);
+    this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value)
+  }
+
+  onChangeEnchantment_TypeRare(event: string){
+    if (this.selectedEnchantments['rare'].value > 0) {
+      this.selectedEnchantments['rare'].value = 0;
+    }
+    this.selectedEnchantments['rare'].type = event;
+    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`)
+    this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
+    // console.log(this.selectedEnchantment_Rare);
+   
+  }
+  onChangeEnchantment_ValueRare(event: number){
+    this.selectedEnchantments['rare'].value = event;
+    this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
+    //console.log(this.selectedEnchantValue_Rare);
+  }
+
+
   rarityBoxColor(): string {
     switch (this.selectedRarity) {
-      case 1: return 'rarity-poor'
+      case 1: return 'rarity-poor';
       case 2: return 'rarity-common';
       case 3: return 'rarity-uncommon';
       case 4: return 'rarity-rare';

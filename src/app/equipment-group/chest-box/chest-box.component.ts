@@ -30,6 +30,7 @@ export class ChestBoxComponent {
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() raritySelected = new EventEmitter<number>();
+  
 
   // HTTP METHOD 
   constructor(private http: HttpClient) {}

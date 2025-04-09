@@ -34,9 +34,11 @@ export class BoxesGroupComponent {
   @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
 
-  selectedItems: { [key: string]: string } = {}; 
-  selectedRarites: {[key: string]: string} = {}; 
-  selectedRatings: {[key: string]: string} = {};
+  selectedItems:        {[key: string]: string} = {}; 
+  selectedRarites:      {[key: string]: string} = {}; 
+  selectedRatings:      {[key: string]: string} = {};
+  selectedEnchant:      {[key: string]: string} = {};
+  selectedEnchantValue: {[key: string]: number} = {}; 
   selectedCharacterIndex: number = 0; 
 
   constructor(private http: HttpClient) {}
@@ -52,16 +54,26 @@ export class BoxesGroupComponent {
     this.selectedItems = {};
     this.selectedRarites = {}; // reset rarity
     this.selectedRatings = {}; // reset rating
+    this.selectedEnchant = {}; // reset enchantment
+    this.selectedEnchantValue = {}; // reset enchantment value
     this.calculateCharacter(); // funcion calcula character base
   }
 
   onItemSelected_Helmet(slot: string, itemName: string) {
     if (this.selectedRarites['rarityselect_helmet']){
-      this.selectedRarites['rarityselect_helmet'] = this.selectedRarites[''] = "";
+      this.selectedRarites['rarityselect_helmet'] = this.selectedRarites[''] = ""
       }
     if (this.selectedRatings['armorrating_helmet']){
       this.selectedRatings['armorrating_helmet'] = this.selectedRatings['']
     }
+    if (this.selectedEnchant['enchantment_helmettype']) {
+      this.selectedEnchant['enchantment_helmettype'] = ""; // Reset enchantment value if it exists
+    }
+    
+    if (this.selectedEnchantValue['enchantment_helmetvalue']) {
+      this.selectedEnchantValue['enchantment_helmetvalue'] = 0; // Reset enchantment value if it exists\
+    }
+
     this.selectedItems[slot] = itemName;
     this.calculateEquipment(); 
   }
@@ -114,8 +126,28 @@ export class BoxesGroupComponent {
     this.selectedRarites[slot] = String(rarity);
     const slotType = slot.split('_')[1]; 
     const ratingKey = `armorrating_${slotType}`;
+    
+    const enchantmentType = `enchantment_${slotType}type`;
+    const enchantmentValue = `enchantment_${slotType}value`;
+
+    const enchantmentTypeRare = `enchantment_${slotType}type2`;
+    const enchantmentValueRare = `enchantment_${slotType}value2`;
+
+    if (this.selectedEnchant[enchantmentType]) {
+      this.selectedEnchant[enchantmentType] = ""; // Reset enchantment value if it exists
+    }
+    if (this.selectedEnchantValue[enchantmentValue]) {
+      this.selectedEnchantValue[enchantmentValue] = 0; // Reset enchantment value if it exists\
+    }
+    if (this.selectedEnchant[enchantmentTypeRare]) {
+      this.selectedEnchant[enchantmentTypeRare] = ""; // Reset enchantment value if it exists
+    }
+    if (this.selectedEnchantValue[enchantmentValueRare]) {
+      this.selectedEnchantValue[enchantmentValueRare] = 0; // Reset enchantment value if it exists\
+    }
+
     if (this.selectedRatings[ratingKey]) {
-        delete this.selectedRatings[ratingKey]; 
+        delete this.selectedRatings[ratingKey];
     }
     this.calculateEquipment();
   }
@@ -126,6 +158,35 @@ export class BoxesGroupComponent {
     this.calculateEquipment();
   }
 
+  onEnchantmentSelected_TypeUncommon( slot: string, enchantment: string) {
+    this.selectedEnchant[slot] = enchantment;
+    if (this.selectedEnchantValue['enchantment_helmetvalue'] >= 0) {
+      this.selectedEnchantValue['enchantment_helmetvalue'] = 0;
+      
+    }
+    this.calculateEquipment();
+  }
+
+  onEnchantmentSelected_ValueUncommon(slot: string, enchantmentValue: number) {
+    this.selectedEnchantValue[slot] = enchantmentValue;
+    this.calculateEquipment();
+  }
+
+  onEnchantmentSelected_TypeRare(slot: string, enchantment: string) {
+    
+    if (this.selectedEnchantValue['enchantment_helmetvalue2'] >= 0) {
+      this.selectedEnchantValue['enchantment_helmetvalue2'] = 0;
+    }
+    this.selectedEnchant[slot] = enchantment;
+
+    //this.selectedEnchantValue['enchantment_helmetvalue'] = 0;
+    this.calculateEquipment();
+  }
+
+  onEnchantmentSelected_ValueRare(slot: string, enchantmentValue: number) {
+    this.selectedEnchantValue[slot] = enchantmentValue;
+    this.calculateEquipment();
+  }
   // API CALL TO CALCULATE EQUIPMENT
   calculateEquipment() {
     // Construct query string from selected items
@@ -140,6 +201,13 @@ export class BoxesGroupComponent {
       for (const [slot, rating] of Object.entries(this.selectedRatings)) {
         if (rating) params.append( slot, rating);
       }
+      for (const [slot, enchantment] of Object.entries(this.selectedEnchant)) {
+        if (enchantment) params.append( slot, enchantment);
+      }
+      for (const [slot, enchantmentValue] of Object.entries(this.selectedEnchantValue)) {
+        if (enchantmentValue) params.append( slot, String(enchantmentValue));
+      } 
+
       
     const url = `http://127.0.0.1:8080/charbuilder/${this.selectedCharacterIndex}?${params.toString()}`;
    
@@ -153,7 +221,6 @@ export class BoxesGroupComponent {
       },
     });
   }
-
   // API call to calculate character
   calculateCharacter() {
     const url = `http://127.0.0.1:8080/charbuilder/${this.selectedCharacterIndex}`;
