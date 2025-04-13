@@ -10,23 +10,37 @@
     background-color: #f9f9f9; /* Light background for contrast */
     border-radius: 5px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    overflow-y: auto
-  }
+    overflow-y: auto;
+}
   
-  .stats h2 {
+.stats h2 {
     grid-column: span 2; /* Headers span both columns */
     text-align: center;
     margin: 10px 0;
     font-size: 1.5em;
     color: #333;
-  }
-  
-  .stats p {
-    margin: 5px 0; /* Spacing between stat lines */
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
     padding: 5px;
-    background-color: #fff; /* White background for each stat */
-    border: 1px solid #ddd; /* Light border around each stat */
-    border-radius: 3px; /* Slightly rounded corners */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
     font-size: 1em;
     color: #555;
-  }
+}
+
+.stat-name {
+    text-align: left;
+    flex: 1;
+}
+
+.stat-value {
+    text-align: right;
+    margin-left: 20px;
+    min-width: 60px;
+}

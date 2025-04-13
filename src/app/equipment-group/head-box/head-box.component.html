@@ -16,17 +16,20 @@
     }
     @if (showContextMenu && selectedItem) {
       <div class="modal-box">
+        <div class="rarity-buttons">
+          @for (rarity of rarityHead; track $index) {
+            <button 
+              [class.active]="selectedRarity === $index"
+              (click)="onChangeRarity($index)"
+              class="rarity-button"
+            >
+              {{ $index }}
+            </button>
+          }
+        </div>
         <div class="modal-content">
-          <h3>{{ selectedItem.name || 'No Item Selected' }}</h3>
+          <h3 [class]="'rarity-' + selectedRarity">{{ selectedItem.name || 'No Item Selected' }}</h3>
           <img [src]="selectedItem.image" [alt]="selectedItem.name" class="modal-image" />
-            <div class = "rarity-select">
-              <label for="rarity-select">Rarity:</label>
-              <select id="rarity-select" [(ngModel)]="selectedRarity" (ngModelChange)="onChangeRarity($event)">
-                @for (list of rarityHead; track $index) {
-                  <option [value]="$index">{{ list }}</option>
-                }
-              </select>
-            </div>
             <div class = "rating-select">
               <label for="rating-select">Rating:</label>
               <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
@@ -36,40 +39,95 @@
               </select>
             </div>
             @if(selectedRarity >= 3){
-              <div class = "enchantment-Uncommon-select">
+              <div class="enchantment-Uncommon-select">
                 <label for="enchantment-Uncommon-select">Uncommon:</label>
-                  <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
-                     @for (list of enchantmentLists['uncommon'].types ; track list) {
-                      <option [value]="list">{{ list }}</option>
-                       } 
-                  </select>
-                </div>}
-                @if(selectedEnchantments['uncommon'].type && selectedRarity >= 3){
-                <div class = "enchantmentvalue-Uncommmon-select">
+                <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
+                  @for (list of enchantmentLists['uncommon'].types; track list + '_uncommon') {
+                    <option [value]="list">{{ list }}</option>
+                  } 
+                </select>
+                @if(selectedEnchantments['uncommon'].type){
                 <label for="enchantmentvalue-Uncommon-select">Value:</label>
-                    <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="selectedEnchantments['uncommon'].value" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
-                      @for (listvalue of enchantmentLists['uncommon'].values ; track listvalue) {
-                      <option [value]="listvalue">{{ listvalue }}</option>} 
-                    </select>
-                </div> }  
-                  @if(selectedEnchantments['uncommon'].type && selectedRarity >= 4 ){
-                  <div class = "enchantment-Rare-select">
-                  <label for="enchantment-Rare-select">Rare:</label>
-                    <select id="enchantment-Rare-select" [(ngModel)]="selectedEnchantments['rare'].type" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
-                      @for (list of enchantmentLists['rare'].types ; track list) {
-                      <option [value]="list">{{ list }}</option>
-                       } 
-                    </select>
-                  </div>}
-                  @if(selectedEnchantments['rare'].type && selectedRarity >= 4){
-                  <div class = "enchantmentvalue-Rare-select">
-                  <label for="enchantmentvalue-Rare-select">Value:</label>
-                    <select id="enchantmentvalue-Rare-select" [(ngModel)]="enchantmentLists['rare'].values" (ngModelChange)="onChangeEnchantment_ValueRare($event)">
-                      @for (listvalue of enchantmentLists['rare'].values ; track listvalue) {
-                      <option [value]="listvalue">{{ listvalue }}</option>} 
-                    </select>
-                  </div> }
-                  
+                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="selectedEnchantments['uncommon'].value" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
+                  @for (listvalue of enchantmentLists['uncommon'].values; track listvalue + '_uncommon_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 4){
+              <div class="enchantment-Rare-select">
+                <label for="enchantment-Rare-select">Rare:</label>
+                <select id="enchantment-Rare-select" [(ngModel)]="selectedEnchantments['rare'].type" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
+                  @for (list of enchantmentLists['rare'].types; track list + '_rare') {
+                    <option [value]="list">{{ list }}</option>
+                  } 
+                </select>
+                @if(selectedEnchantments['rare'].type){
+                <label for="enchantmentvalue-Rare-select">Value:</label>
+                <select id="enchantmentvalue-Rare-select" [(ngModel)]="selectedEnchantments['rare'].value" (ngModelChange)="onChangeEnchantment_ValueRare($event)">
+                  @for (listvalue of enchantmentLists['rare'].values; track listvalue + '_rare_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 5){
+              <div class="enchantment-Epic-select">
+                <label for="enchantment-Epic-select">Epic:</label>
+                <select id="enchantment-Epic-select" [(ngModel)]="selectedEnchantments['epic'].type" (ngModelChange)="onChangeEnchantment_TypeEpic($event)">
+                  @for (list of enchantmentLists['epic'].types; track list + '_epic') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['epic'].type){
+                <label for="enchantmentvalue-Epic-select">Value:</label>
+                <select id="enchantmentvalue-Epic-select" [(ngModel)]="selectedEnchantments['epic'].value" (ngModelChange)="onChangeEnchantment_ValueEpic($event)">
+                  @for (listvalue of enchantmentLists['epic'].values; track listvalue + '_epic_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 6){
+              <div class="enchantment-Legendary-select">
+                <label for="enchantment-Legendary-select">Legendary:</label>
+                <select id="enchantment-Legendary-select" [(ngModel)]="selectedEnchantments['legendary'].type" (ngModelChange)="onChangeEnchantment_TypeLegendary($event)">
+                  @for (list of enchantmentLists['legendary'].types; track list + '_legendary') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['legendary'].type){
+                <label for="enchantmentvalue-Legendary-select">Value:</label>
+                <select id="enchantmentvalue-Legendary-select" [(ngModel)]="selectedEnchantments['legendary'].value" (ngModelChange)="onChangeEnchantment_ValueLegendary($event)">
+                  @for (listvalue of enchantmentLists['legendary'].values; track listvalue + '_legendary_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 7){
+              <div class="enchantment-Unique-select">
+                <label for="enchantment-Unique-select">Unique:</label>
+                <select id="enchantment-Unique-select" [(ngModel)]="selectedEnchantments['unique'].type" (ngModelChange)="onChangeEnchantment_TypeUnique($event)">
+                  @for (list of enchantmentLists['unique'].types; track list + '_unique') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['unique'].type){
+                <label for="enchantmentvalue-Unique-select">Value:</label>
+                <select id="enchantmentvalue-Unique-select" [(ngModel)]="selectedEnchantments['unique'].value" (ngModelChange)="onChangeEnchantment_ValueUnique($event)">
+                  @for (listvalue of enchantmentLists['unique'].values; track listvalue + '_unique_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
    </div>
         <div class="button-close">
           <button (click)="showContextMenu = false">Close</button>

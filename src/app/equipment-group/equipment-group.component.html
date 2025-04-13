@@ -1,9 +1,7 @@
-<!-- Character Selection -->
- <app-character-box (characterSelected)="onCharacterSelected($event)"></app-character-box>
 <!-- Equipment Boxes -->
 <div class="equipment-boxes">
   <head-box 
-    [classSelection]="selectedCharacterIndex" 
+    [classSelection]="classSelection" 
     (itemSelected)="onItemSelected_Helmet('itemhelmet', $event)"
     (raritySelected)="onRaritySelected('rarityselect_helmet', $event)"
     (ratingSelected)="onRatingSelected('armorrating_helmet', $event)"
@@ -11,31 +9,39 @@
     (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_helmetvalue', $event)"
     (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_helmettype2', $event)"
     (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_helmetvalue2', $event)"
-
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_helmettype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_helmetvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_helmettype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_helmetvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_helmettype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_helmetvalue5', $event)"
   > </head-box>
+
   <chest-box 
-    [classSelection]="selectedCharacterIndex"
+    [classSelection]="classSelection"
     (itemSelected)="onItemSelected_Chest('itemchest', $event)"
     (raritySelected)="onRaritySelected('rarityselect_chest', $event)"
     (ratingSelected)="onRatingSelected('armorrating_chest', $event)"
   > </chest-box>
+
   <gloves-box 
-    [classSelection]="selectedCharacterIndex"
+    [classSelection]="classSelection"
     (itemSelected)="onItemSelected_Chest('itemgloves', $event)"
     (raritySelected)="onRaritySelected('rarityselect_gloves', $event)"
     (ratingSelected)="onRatingSelected('armorrating_gloves', $event)"
     > </gloves-box>
+
   <pants-box
-    [classSelection]="selectedCharacterIndex"
+    [classSelection]="classSelection"
     (itemSelected)="onItemSelected_Chest('itempants', $event)"
     (raritySelected)="onRaritySelected('rarityselect_pants', $event)"
     (ratingSelected)="onRatingSelected('armorrating_pants', $event)"
   > </pants-box>
-  <necklace-box
-  [classSelection]="selectedCharacterIndex"
-  (itemSelected)="onItemSelected_Chest('itemnecklace', $event)"
-  (raritySelected)="onRaritySelected('rarityselect_necklace', $event)"
 
-> </necklace-box>
+  <necklace-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Chest('itemnecklace', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_necklace', $event)"
+  > </necklace-box>
 
 </div>

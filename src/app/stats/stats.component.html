@@ -1,88 +1,186 @@
 <div class="stats">
     <div *ngIf="calculationResult">
-      <p>Strength: {{ calculationResult.stats.Strength }}</p>
-      <p>Vigor: {{ calculationResult.stats.Vigor }}</p>
-      <p>Agility: {{ calculationResult.stats.Agility }}</p>
-      <p>Dexterity: {{ calculationResult.stats.Dexterity }}</p>
-      <p>Will: {{ calculationResult.stats.Will }}</p>
-      <p>Knowledge: {{ calculationResult.stats.Knowledge }}</p>
-      <p>Resourcefulness: {{ calculationResult.stats.Resourcefulness }}</p>
+      <div class="stat-row">
+        <span class="stat-name">Strength:</span>
+        <span class="stat-value">{{ calculationResult.stats.Strength }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Vigor:</span>
+        <span class="stat-value">{{ calculationResult.stats.Vigor }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Agility:</span>
+        <span class="stat-value">{{ calculationResult.stats.Agility }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Dexterity:</span>
+        <span class="stat-value">{{ calculationResult.stats.Dexterity }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Will:</span>
+        <span class="stat-value">{{ calculationResult.stats.Will }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Knowledge:</span>
+        <span class="stat-value">{{ calculationResult.stats.Knowledge }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Resourcefulness:</span>
+        <span class="stat-value">{{ calculationResult.stats.Resourcefulness }}</span>
+      </div>
 
       <h2>----------------------------------------------</h2>
-        <p>Health: {{ calculationResult.computedstats.Health }}</p>
-    
-        <p>Physical Healing: {{ calculationResult.computedstats.PhysicalHealing }} </p>
-
-        <p>Magical Healing: {{ calculationResult.computedstats.MagicalHealing }}</p>
-	
-	      <p>Memory Capacity: {{ calculationResult.computedstats.MemoryCapacity }}</p>
-
-        <p>Memory Spell Payload: </p>
-
-        <p>Memory Music Payload: </p>
-
-        <p>Utility Effectiveness: </p>
-
-        <p>Luck: {{ calculationResult.computedstats.Luck }}</p>
-	
-	      <p>Health Recovery Bonus: {{ calculationResult.computedstats.HealthRecovery }}%</p>
-	
-	      <p>Spell Recovery : {{ calculationResult.computedstats.SpellRecovery }} %</p>
-	
-	      <p>Move Speed: {{ calculationResult.computedstats.MoveSpeed }} </p>
-	
-	      <p>Move Speed Percentage: {{ calculationResult.computedstats.MoveSpeedCalc }}%</p>
-	
-        <p>Action Speed: {{ calculationResult.computedstats.ActionSpeed }}%</p>
-	
-	      <p>Manual Dexterity: {{ calculationResult.computedstats.ManualDexterity }}%</p>
-	
-	      <p>Spell Casting Speed: {{ calculationResult.computedstats.SpellCastingSpeed }}%</p>
-	
-	      <p>Equip Speed: {{ calculationResult.computedstats.EquipSpeed }}%</p>
-	
-	     <p>Regular Interaction Speed: {{ calculationResult.computedstats.RegularInteractionSpeed }}%</p>
-	
-	      <p>Magical Interaction Speed: {{ calculationResult.computedstats.MagicalInteractionSpeed }}%</p>
-	
-	      <p>Persuasiveness: {{ calculationResult.computedstats.Persuasiveness }}</p>
-	
-	      <p>Buff Duration: {{ calculationResult.computedstats.BuffDuration }}%</p>
-	
-	      <p>Debuff Duration: {{ calculationResult.computedstats.DebuffDuration }}%</p>
-	
-	      <p>Cooldown Reduction: {{ calculationResult.computedstats.CooldownReduction }}%</p>
-
-        <p>Armor Penertation: {{ calculationResult.computedstats.ArmorPenetration }} %</p>
-
-        <p>Magic Penetration: {{ calculationResult.computedstats.MagicPenetration}} % </p>
-
-        <p>Headshot Reduction: {{ calculationResult.computedstats.HeadshotReduction}} % </p>
-
-        <p>Projectile Damage Reduction: {{ calculationResult.computedstats.ProjectileReduction}} %</p>
-
-        <p>Physical Damage Reduction {{ calculationResult.computedstats.PhysicalDamageReduction }}% </p>
-
-        <p>From Armor Rating: {{ calculationResult.computedstats.FromArmorRating }} </p>
-
-        <p>From Bonuses: {{ calculationResult.computedstats.BonusPhysicalDamageReduction }} %</p>
-
-        <p>Magic Resistance: {{ calculationResult.computedstats.MagicalDamageReduction }} %</p>
-
-        <p>From Magic Rating: {{ calculationResult.computedstats.MagicRating }} </p> 
-
-        <p>From Bonuses:  {{ calculationResult.computedstats.BonusMagicalDamageReduction}} %</p>
-
-	      <p>Physical Power Bonus: {{ calculationResult.computedstats.PhysicalPowerBonus }} % </p>
-    
-        <p>From Physical Power: {{ calculationResult.computedstats.PhysicalPower }}</p>
-
-        <p>From Bonuses:{{ calculationResult.computedstats.BonusPhysicalPower}}</p>
-
-        <p>Magical Power Bonus: {{ calculationResult.computedstats.MagicalPowerBonus }}%</p>
-	
-        <p>From Magical Power: {{ calculationResult.computedstats.MagicalPower}}</p>
-
-        <p>From Bonuses: {{ calculationResult.computedstats.BonusMagicalPower}} </p>
+      <div class="stat-row">
+        <span class="stat-name">Health:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.Health }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Healing:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.PhysicalHealing }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Healing:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicalHealing }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Capacity:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MemoryCapacity }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Spell Payload:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Music Payload:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Utility Effectiveness:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Luck:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.Luck }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Health Recovery Bonus:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.HealthRecovery }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Spell Recovery:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.SpellRecovery }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Move Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MoveSpeed }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Move Speed Percentage:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MoveSpeedCalc }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Action Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.ActionSpeed }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Manual Dexterity:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.ManualDexterity }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Spell Casting Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.SpellCastingSpeed }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Equip Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.EquipSpeed }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Regular Interaction Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.RegularInteractionSpeed }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Interaction Speed:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicalInteractionSpeed }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Persuasiveness:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.Persuasiveness }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Buff Duration:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.BuffDuration }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Debuff Duration:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.DebuffDuration }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Cooldown Reduction:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.CooldownReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Armor Penetration:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.ArmorPenetration }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magic Penetration:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicPenetration }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Headshot Reduction:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.HeadshotReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Projectile Damage Reduction:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.ProjectileReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Damage Reduction:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.PhysicalDamageReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Armor Rating:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.FromArmorRating }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.BonusPhysicalDamageReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magic Resistance:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicalDamageReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Magic Rating:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicRating }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.BonusMagicalDamageReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Power Bonus:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.PhysicalPowerBonus }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Physical Power:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.PhysicalPower }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.BonusPhysicalPower }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Power Bonus:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicalPowerBonus }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Magical Power:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.MagicalPower }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value">{{ calculationResult.computedstats.BonusMagicalPower }}</span>
+      </div>
     </div>
   </div>
