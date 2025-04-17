@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './stats.component.css'
 })
 export class StatsComponent {
-  @Input() calculationResult: any; // Input property to receive data from the parent
+  @Input() calculationResult: any; // recive los stats calculados
 }

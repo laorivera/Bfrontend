@@ -24,6 +24,7 @@ import { NecklaceBoxComponent } from './necklace-box/necklace-box.component';
 
 export class BoxesGroupComponent {
   @Input() classSelection: number = 0;
+
   @Output() calculationResultChanged = new EventEmitter<any>(); 
 
   @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
@@ -50,12 +51,12 @@ export class BoxesGroupComponent {
     
     // Reset all selected values
     this.selectedItems = {};
-    this.selectedRarites = {}; // reset rarity
-    this.selectedRatings = {}; // reset rating
-    this.selectedEnchant = {}; // reset enchantment
-    this.selectedEnchantValue = {}; // reset enchantment value
+    this.selectedRarites = {}; 
+    this.selectedRatings = {}; 
+    this.selectedEnchant = {}; 
+    this.selectedEnchantValue = {}; 
+    this.classSelection = index;
     
-    // Calculate character base stats
     this.calculateCharacter(); // funcion calcula character base
   }
 

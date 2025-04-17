@@ -23,6 +23,7 @@ export class HeadBoxComponent {
   selectedItem: ListItem | null = null;
   selectedRarity: number = 0;
   selectedRating: number = 0;
+  selectedItemData: any = null;
   listCharacters: ListItem[] = [];
   listRating: number[] = [];
   showContextMenu = false;
@@ -45,11 +46,6 @@ export class HeadBoxComponent {
   };
 
   
-
-
-  //array rarity 
-  rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
-
   // send data to parents
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
@@ -76,10 +72,14 @@ export class HeadBoxComponent {
     // Reset all selections when class changes
     this.resetSelection();
     this.fetchList_Character(`http://127.0.0.1:8080/helmetlist/${this._classSelection}`);
+    
   }
+
   get classSelection(): number {
     return this._classSelection;
   }
+
+
   //
   fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
@@ -87,21 +87,26 @@ export class HeadBoxComponent {
         this.listCharacters = response.list;
         this.listCharacters.unshift({ image: 'assets/placeholder.png', name: '' });
       },
+
       error: (err) => {
         console.error('Error fetching head list:', err);
       },
+
     });
   }
   // reset selecciones
   resetSelection() {
     this.selectedItem = null;
+    this.selectedItemData = null;
     this.showList = false;
     this.showContextMenu = false;
     this.selectedRarity = 0;
     this.listRating = [];
+  
     for (const rarity in this.selectedEnchantments) {
       this.selectedEnchantments[rarity] = { type: '', value: 0 };
     }
+    /*
     this.selectedEnchantments['uncommon'].value = 0;
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['epic'].value = 0;
@@ -112,16 +117,16 @@ export class HeadBoxComponent {
     this.selectedEnchantments['epic'].type = '';
     this.selectedEnchantments['legendary'].type = '';
     this.selectedEnchantments['unique'].type = '';
-    
+    */
   }
 
 
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
+    this.fetchItemData_Armor(`http://127.0.0.1:8080/itemdisplay/${item.name}`);
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
-  
   }
 
   fetchList_Rating(url: string) {
@@ -131,8 +136,7 @@ export class HeadBoxComponent {
         console.log(this.listRating);
         
         // If there's only one rating option, automatically select it
-        if (this.listRating.length === 1) {
-          this.selectedRatingIndex = 0;
+        if (this.listRating.length >= 1) {
           this.selectedRating = this.listRating[0];
           this.ratingSelected.emit(this.selectedRating);
         }
@@ -149,9 +153,7 @@ export class HeadBoxComponent {
         
         // Add "No selection" option at the beginning of each list
         this.enchantmentLists['uncommon'].types = ['No selection', ...response['listname_uncommon']];
-        if (this.enchantmentLists['uncommon'].types = ['No selection', ...response['listname_uncommon']])  {
-          this.enchantmentLists['rare'].types = ['No selection', ...response['listname_rare']];
-        }
+        this.enchantmentLists['rare'].types = ['No selection', ...response['listname_rare']];
         this.enchantmentLists['epic'].types = ['No selection', ...response['listname_epic']];
         this.enchantmentLists['legendary'].types = ['No selection', ...response['listname_legend']];
         this.enchantmentLists['unique'].types = ['No selection', ...response['listname_unique']];
@@ -225,8 +227,29 @@ export class HeadBoxComponent {
       },
     });
   }
- 
-  // Assuming this should listen to a click on the component itself
+
+  fetchItemData_Armor(url: string) {
+    console.log('Fetching item data from URL:', url);
+    this.http.get<any>(url).subscribe({
+      next: (response) => {
+        console.log('Item data response:', response);
+        // Check if the response has the expected structure
+        if (response && response.itemdata) {
+          this.selectedItemData = response;
+          console.log('Selected item data:', this.selectedItemData);
+        } else {
+          console.error('Unexpected response structure:', response);
+          this.selectedItemData = null;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching item display:', err);
+        this.selectedItemData = null;
+      },
+    });
+  }
+
+
   @HostListener('click', ['$event'])
   onLeftClick(event: MouseEvent) {
     // Only toggle showList if we're not clicking inside the modal box
@@ -248,7 +271,12 @@ export class HeadBoxComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     this.showList = false;
-    this.showContextMenu = false;
+    
+    // Only close the context menu if the click is outside the modal box
+    const target = event.target as HTMLElement;
+    if (!target.closest('.modal-box') && !target.closest('.equipment-box')) {
+      this.showContextMenu = false;
+    }
   }
 
   onChangeRarity(event: number) {
@@ -323,7 +351,7 @@ export class HeadBoxComponent {
     this.selectedEnchantments['rare'].type = event;
     //this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`)
     this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentEpicType}&enchantment_helmettype3=${currentLegendaryType}&enchantment_helmettype4=${currentUniqueType}&enchantment_helmettype5=${this.selectedEnchantments['rare'].type}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`);
+    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`);
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
     // console.log(this.selectedEnchantment_Rare);
    
@@ -424,17 +452,29 @@ export class HeadBoxComponent {
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);
   }
 
-  // Format decimal values for display, removing trailing zeros
-  formatValue(value: number): string {
-    if (value === null || value === undefined) return '';
+  
+  //array rarity 
+  rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
+
+
+  // Format values for display
+  formatValue(value: any): string {
+    if (value === null || value === undefined) return 'N/A';
     
-    // Convert to string with up to 2 decimal places
-    let formattedValue = value.toFixed(2);
+    // If value is an object, convert to string
+    if (typeof value === 'object') {
+      return JSON.stringify(value);
+    }
     
-    // Remove trailing zeros after decimal point
-    formattedValue = formattedValue.replace(/\.?0+$/, '');
+    // If value is a number, format with up to 2 decimal places
+    if (typeof value === 'number') {
+      let formattedValue = value.toFixed(2);
+      // Remove trailing zeros after decimal point
+      formattedValue = formattedValue.replace(/\.?0+$/, '');
+      return formattedValue;
+    }
     
-    return formattedValue;
+    return String(value);
   }
 
   rarityBoxColor(): string {

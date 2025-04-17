@@ -52,6 +52,26 @@
   padding: 20px;
 }
 
+.item-data {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+
+.item-data p {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.item-data p:last-child {
+  border-bottom: none;
+}
+
 .rarity-buttons {
   display: flex;
   justify-content: space-between;
@@ -176,6 +196,7 @@
 
 .modal-content {
   text-align: center;
+  
 }
 
 .modal-image {
@@ -278,9 +299,12 @@ button {
 .enchantment-Epic-select,
 .enchantment-Legendary-select,
 .enchantment-Unique-select {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1px;
   margin: 5px 0;
 }
 
@@ -387,4 +411,36 @@ button {
 .modal-content label {
   min-width: 80px;
   text-align: right;
+}
+
+.uncommon-border {
+  border: 2px solid #1a8f1a;  /* Green */
+}
+
+.rare-border {
+  border: 2px solid #1a1a8f;  /* Blue */
+}
+
+.epic-border {
+  border: 2px solid #8f1a8f;  /* Purple */
+}
+
+.legendary-border {
+  border: 2px solid #ff8c00;  /* Orange */
+}
+
+.unique-border {
+  border: 2px solid #ffd700;  /* Gold */
+}
+
+.enchantment-Uncommon-select select,
+.enchantment-Rare-select select,
+.enchantment-Epic-select select,
+.enchantment-Legendary-select select,
+.enchantment-Unique-select select {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
 }
