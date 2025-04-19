@@ -6,7 +6,7 @@
     />
     @if (showList) {
       <div class="equipment-list"  >
-        @for (item of listCharacters; track item.name) {
+        @for (item of listItems; track item.name) {
           <div (click)="selectItem(item)" class="equipment-item">
             <img [src]="item.image" [alt]="item.name" />
             <span>{{ item.name }}</span>

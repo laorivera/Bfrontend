@@ -24,7 +24,7 @@ export class HeadBoxComponent {
   selectedRarity: number = 0;
   selectedRating: number = 0;
   selectedItemData: any = null;
-  listCharacters: ListItem[] = [];
+  listItems: ListItem[] = [];
   listRating: number[] = [];
   showContextMenu = false;
   selectedRatingIndex: number = 0;
@@ -84,8 +84,8 @@ export class HeadBoxComponent {
   fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
-        this.listCharacters = response.list;
-        this.listCharacters.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems = response.list;
+        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
       },
 
       error: (err) => {
@@ -292,27 +292,29 @@ export class HeadBoxComponent {
     this.selectedEnchantments['unique'].type = '';
     
     this.selectedRarity = +event;
-    console.log(this.selectedRarity);
+    //console.log(this.selectedRarity);
 
     this.rarityBoxColor();
+
     if (this.selectedItem?.name) {
       this.fetchList_Rating(`http://127.0.0.1:8080/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`);
       this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem.name}`);
     }
     this.raritySelected.emit(this.selectedRarity);
-    console.log(this.selectedRarity);
+    //console.log(this.selectedRarity);
   }
 
   onChangeRating(event: number) {
-    //const target = event.target as HTMLSelectElement;
     const index = +event;
     this.selectedRating = this.listRating[index];
-    console.log(this.selectedRating);
+    //console.log(this.selectedRating);
+
     this.ratingSelected.emit(this.selectedRating);
   }
 
   onChangeEnchantment_TypeUncommon(event: string){
     this.selectedEnchantments['uncommon'].type = event;
+    
     const currentEnchantmentUncommon = this.selectedEnchantments['uncommon'].type;
     const currentEnchantmentRare = this.selectedEnchantments['rare'].type;
     const currentEnchantmentEpic = this.selectedEnchantments['epic'].type;
@@ -335,7 +337,9 @@ export class HeadBoxComponent {
     this.selectedEnchantments['uncommon'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}
+    &enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}
+    &enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
     
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value);
