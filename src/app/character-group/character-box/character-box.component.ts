@@ -11,6 +11,8 @@ import { Output, EventEmitter } from '@angular/core';
 })
 
 export class CharacterBoxComponent {
+    //selected character's image
+    selectedCharacterImage: string = '';
 
   @Output() characterSelected = new EventEmitter<number>(); 
 
@@ -19,9 +21,6 @@ export class CharacterBoxComponent {
     'Fighter', 'Barbarian', 'Rogue', 'Wizard', 'Cleric', 
     'Warlock', 'Bard', 'Druid', 'Ranger', 'Sorcerer'
   ];
-
-  //selected character's image
-  selectedCharacterImage: string = '';
 
   onChange(event: Event) {
     const target = event.target as HTMLSelectElement;

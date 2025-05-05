@@ -47,6 +47,7 @@ export class HeadBoxComponent {
 
   
   // send data to parents
+  
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() raritySelected = new EventEmitter<number>();
@@ -71,17 +72,16 @@ export class HeadBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(`http://127.0.0.1:8080/helmetlist/${this._classSelection}`);
+    this.fetchList_Items(`http://127.0.0.1:8080/helmetlist/${this._classSelection}`);
     
   }
-
   get classSelection(): number {
     return this._classSelection;
   }
 
 
   //
-  fetchList_Character(url: string) {
+  fetchList_Items(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
@@ -106,18 +106,7 @@ export class HeadBoxComponent {
     for (const rarity in this.selectedEnchantments) {
       this.selectedEnchantments[rarity] = { type: '', value: 0 };
     }
-    /*
-    this.selectedEnchantments['uncommon'].value = 0;
-    this.selectedEnchantments['rare'].value = 0;
-    this.selectedEnchantments['epic'].value = 0;
-    this.selectedEnchantments['legendary'].value = 0;
-    this.selectedEnchantments['unique'].value = 0;
-    this.selectedEnchantments['uncommon'].type = '';
-    this.selectedEnchantments['rare'].type = '';
-    this.selectedEnchantments['epic'].type = '';
-    this.selectedEnchantments['legendary'].type = '';
-    this.selectedEnchantments['unique'].type = '';
-    */
+ 
   }
 
 
@@ -313,13 +302,14 @@ export class HeadBoxComponent {
   }
 
   onChangeEnchantment_TypeUncommon(event: string){
-    this.selectedEnchantments['uncommon'].type = event;
-    
     const currentEnchantmentUncommon = this.selectedEnchantments['uncommon'].type;
     const currentEnchantmentRare = this.selectedEnchantments['rare'].type;
     const currentEnchantmentEpic = this.selectedEnchantments['epic'].type;
     const currentEnchantmentLegendary = this.selectedEnchantments['legendary'].type;
     const currentEnchantmentUnique = this.selectedEnchantments['unique'].type;
+
+    this.selectedEnchantments['uncommon'].value = 0;
+    this.selectedEnchantments['uncommon'].type = event;
   
     this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentEnchantmentUncommon}&enchantment_helmettype2=${currentEnchantmentRare}&enchantment_helmettype3=${currentEnchantmentEpic}&enchantment_helmettype4=${currentEnchantmentLegendary}&enchantment_helmettype5=${currentEnchantmentUnique}`);
     this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentEnchantmentUncommon}`);
@@ -347,17 +337,19 @@ export class HeadBoxComponent {
 
   onChangeEnchantment_TypeRare(event: string){
     const currentUncommonType = this.selectedEnchantments['uncommon'].type;
+    const currentRareType = this.selectedEnchantments['rare'].type;
     const currentEpicType = this.selectedEnchantments['epic'].type;
     const currentLegendaryType = this.selectedEnchantments['legendary'].type;
     const currentUniqueType = this.selectedEnchantments['unique'].type;
-    
 
+
+    this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['rare'].type = event;
-    //this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`)
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentEpicType}&enchantment_helmettype3=${currentLegendaryType}&enchantment_helmettype4=${currentUniqueType}&enchantment_helmettype5=${this.selectedEnchantments['rare'].type}`);
+
+    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
     this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`);
+
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
-    // console.log(this.selectedEnchantment_Rare);
    
   }
   
@@ -380,13 +372,15 @@ export class HeadBoxComponent {
   onChangeEnchantment_TypeEpic(event: string){
     const currentUncommonType = this.selectedEnchantments['uncommon'].type;
     const currentRareType = this.selectedEnchantments['rare'].type;
+    const currentEpicType = this.selectedEnchantments['epic'].type;
     const currentLegendaryType = this.selectedEnchantments['legendary'].type;
     const currentUniqueType = this.selectedEnchantments['unique'].type;
 
+    this.selectedEnchantments['epic'].value = 0;
     this.selectedEnchantments['epic'].type = event;
-    //this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}`);
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentLegendaryType}&enchantment_helmettype4=${currentUniqueType}&enchantment_helmettype5=${this.selectedEnchantments['epic'].type}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}`);
+
+    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}`);
     this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
   }
   
@@ -409,11 +403,13 @@ export class HeadBoxComponent {
     const currentUncommonType = this.selectedEnchantments['uncommon'].type;
     const currentRareType = this.selectedEnchantments['rare'].type;
     const currentEpicType = this.selectedEnchantments['epic'].type;
+    const currentLegendaryType = this.selectedEnchantments['legendary'].type;
     const currentUniqueType = this.selectedEnchantments['unique'].type;
 
+    this.selectedEnchantments['legendary'].value = 0;
     this.selectedEnchantments['legendary'].type = event;
-    //this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}`);
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentUniqueType}&enchantment_helmettype5=${this.selectedEnchantments['legendary'].type}`);
+    
+    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
     this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}`);
     this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
   }
@@ -437,10 +433,12 @@ export class HeadBoxComponent {
     const currentRareType = this.selectedEnchantments['rare'].type;
     const currentEpicType = this.selectedEnchantments['epic'].type;
     const currentLegendaryType = this.selectedEnchantments['legendary'].type;
+    const currentUniqueType = this.selectedEnchantments['unique'].type;
 
+    this.selectedEnchantments['unique'].value = 0;
     this.selectedEnchantments['unique'].type = event;
-    //this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}&enchantment_helmettype5=${this.selectedEnchantments['unique'].type}`);
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${this.selectedEnchantments['unique'].type}`);
+
+    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`);
     this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${this.selectedEnchantments['unique'].type}`);
     this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
   }

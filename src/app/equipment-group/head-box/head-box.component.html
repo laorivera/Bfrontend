@@ -4,6 +4,21 @@
       alt="Head Item"
       class="equipment-image"
     />
+    <!--
+    <div class="item-tooltip">
+      <div class="item-name">{{selectedItem?.name || 'No item selected'}}</div>
+      <div class="item-stats">
+        <div class="stat-label">Rarity:</div>
+        <div class="stat-value">{{rarityHead[selectedRarity]}}</div>
+        <div class="stat-label">Rating:</div>
+        <div class="stat-value">{{selectedRating}}</div>
+      </div>
+      <div class="item-description">
+        
+      </div>
+      
+    </div>
+     -->
     @if (showList) {
       <div class="equipment-list"  >
         @for (item of listItems; track item.name) {
@@ -14,7 +29,6 @@
         }
       </div>
     }
-
 
     @if (showContextMenu && selectedItem) {
       <div class="modal-box">
@@ -31,29 +45,56 @@
         </div>
         <!-- additional item data -->
         <div class="item-data">
-          <p>Headshot Reduction: {{selectedItemData?.itemdata?.headshotReduction}} % </p>
-          
-          @if(selectedItemData?.itemdata?.magicalResistance && selectedItemData?.itemdata?.magicalResistance[selectedRarity]){
-            <p>Magical Resistance: {{selectedItemData?.itemdata?.magicalResistance[selectedRarity][0]}} </p>
+          @if(selectedItemData?.itemdata?.headshotReduction){
+            <p>Headshot Reduction: {{selectedItemData?.itemdata?.headshotReduction}} % </p>
           }
           @if(selectedItemData?.itemdata?.projectileReduction){
             <p>Projectile Reduction: {{selectedItemData?.itemdata?.projectileReduction}} % </p>
           }
-          @if(selectedItemData?.itemdata?.moveSpeed){
-            <p>Move Speed: {{selectedItemData?.itemdata?.moveSpeed["1"] }} % </p>
+          @if(selectedItemData?.itemdata?.magicalResistance && selectedItemData?.itemdata?.magicalResistance[selectedRarity]){
+            <p>Magical Resistance: {{selectedItemData?.itemdata?.magicalResistance[selectedRarity][0]}} </p>
+          }
+          @if(selectedItemData?.itemdata?.magicalHealing && selectedItemData?.itemdata?.magicalHealing[selectedRarity]){
+            <p>Magical Healing: {{selectedItemData?.itemdata?.magicalHealing[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdata?.armorPenetration){
+            <p>Armor Penetration: {{selectedItemData?.itemdata?.armorPenetration}} % </p>
+          }
+          @if(selectedItemData?.itemdata?.magicPenetration){
+            <p>Magical Armor Penetration: {{selectedItemData?.itemdata?.magicPenetration}} % </p>
+          }
+          @if(selectedItemData?.itemdata.luck){
+            <p>Luck: {{selectedItemData?.itemdata.luck}}  </p>
+          }
+          @if(selectedItemData?.itemdata.magicalDamageReduction){
+            <p>Magical Damage Reduction: {{selectedItemData?.itemdata.magicalDamageReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdata.physicalDamageReduction){
+            <p>Physical Damage Reduction: {{selectedItemData?.itemdata.physicalDamageReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdata?.magicalPower && selectedItemData?.itemdata?.magicalPower[selectedRarity]){
+            <p>Magical Power: {{selectedItemData?.itemdata?.magicalPower[selectedRarity]}} % </p>
+          }
+          @if(selectedItemData?.itemdata?.actionSpeed && selectedItemData?.itemdata?.actionSpeed[selectedRarity]){
+            <p>Action Speed: {{selectedItemData?.itemdata?.actionSpeed[selectedRarity]}} % </p>
+          }      
+          @if(selectedItemData?.itemdata?.moveSpeedBonus){
+            <p>Move Speed Bonus: {{selectedItemData?.itemdata?.moveSpeedBonus}} </p>
+          }
+      <!-------------------------------------------------- ------------------------------------------------------>
+          @if(selectedItemData?.itemdata?.moveSpeed && selectedItemData?.itemdata?.moveSpeed["1"]){
+            <p>Move Speed: {{selectedItemData?.itemdata?.moveSpeed["1"]}} </p>
           }
           @if(selectedItemData?.itemdata?.armorRatings && selectedItemData?.itemdata?.armorRatings[selectedRarity]){
             <p>Armor Rating: {{selectedItemData?.itemdata?.armorRatings[selectedRarity]}} </p>
           }
-
-          @if(selectedItemData?.itemdata?.BaseAttribute?.strength && selectedItemData?.itemdata?.BaseAttribute?.strength[selectedRarity] == selectedRarity){
+          @if(selectedItemData?.itemdata?.BaseAttribute?.strength && selectedItemData?.itemdata?.BaseAttribute?.strength[selectedRarity]){
             <p>Strength: {{selectedItemData?.itemdata?.BaseAttribute?.strength[selectedRarity] }} </p>
           }
-          @if(selectedItemData?.itemdata?.BaseAttribute?.vigor && selectedItemData?.itemdata?.BaseAttribute?.vigor[selectedRarity] == selectedRarity){
+          @if(selectedItemData?.itemdata?.BaseAttribute?.vigor && selectedItemData?.itemdata?.BaseAttribute?.vigor[selectedRarity]){
             <p>Vigor: {{selectedItemData?.itemdata?.BaseAttribute?.vigor[selectedRarity] }} </p>
           }
-          
-          @if(selectedItemData?.itemdata?.BaseAttribute?.dexterity && selectedItemData?.itemdata?.BaseAttribute?.dexterity[selectedRarity] == selectedRarity){
+          @if(selectedItemData?.itemdata?.BaseAttribute?.dexterity && selectedItemData?.itemdata?.BaseAttribute?.dexterity[selectedRarity]){
             <p>Dexterity: {{selectedItemData?.itemdata?.BaseAttribute?.dexterity[selectedRarity] }} </p>
           }
           @if(selectedItemData?.itemdata?.BaseAttribute?.agility && selectedItemData?.itemdata?.BaseAttribute?.agility[selectedRarity] == selectedRarity){
