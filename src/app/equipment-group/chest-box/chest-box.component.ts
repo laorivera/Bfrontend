@@ -75,7 +75,7 @@ export class ChestBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(this.apiConfig.getApiUrl('/chestlist/'));
+    this.fetchList_Character(this.apiConfig.getApiUrl(`/chestlist/${this._classSelection}`));
     
   }
 

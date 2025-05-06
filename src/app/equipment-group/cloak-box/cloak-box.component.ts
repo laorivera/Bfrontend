@@ -76,7 +76,7 @@ export class CloakBoxComponent{
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(this.apiConfig.getApiUrl('/cloaklist/'));
+    this.fetchList_Character(this.apiConfig.getApiUrl(`/cloaklist/${this._classSelection}`));
     
   }
   get classSelection(): number {

@@ -75,7 +75,7 @@ export class GlovesBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(this.apiConfig.getApiUrl('/gloveslist/'));
+    this.fetchList_Character(this.apiConfig.getApiUrl(`/gloveslist/${this._classSelection}`));
     
   }
 

@@ -75,7 +75,7 @@ export class BootsBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(this.apiConfig.getApiUrl('/bootslist/'));
+    this.fetchList_Character(this.apiConfig.getApiUrl(`/bootslist/${this._classSelection}`));
     
   }
 
