@@ -10,6 +10,7 @@ import { NecklaceBoxComponent } from './necklace-box/necklace-box.component';
 import { CloakBoxComponent } from './cloak-box/cloak-box.component';
 import { RingBoxComponent } from './ring-box/ring-box.component';
 import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
+import { ApiConfigService } from '../services/api-config.service';
 
 
 @Component({
@@ -59,7 +60,10 @@ export class BoxesGroupComponent {
   selectedEnchant:      {[key: string]: string} = {};
   selectedEnchantValue: {[key: string]: number} = {}; 
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiConfig: ApiConfigService
+  ) {}
 
   onCharacterSelected() {
     
@@ -350,7 +354,7 @@ export class BoxesGroupComponent {
       } 
 
       
-    const url = `http://127.0.0.1:8080/charbuilder/${this.classSelection}?${params.toString()}`;
+    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?${params.toString()}`);
    
     this.http.get<any>(url).subscribe({
       next: (response) => {
@@ -364,7 +368,7 @@ export class BoxesGroupComponent {
   }
   // API call to calculate character
   calculateCharacter() {
-    const url = `http://127.0.0.1:8080/charbuilder/${this._classSelection}`;
+    const url = this.apiConfig.getApiUrl(`/charbuilder/${this._classSelection}`);
     
     this.http.get<any>(url).subscribe({
       next: (response) => {
@@ -374,6 +378,22 @@ export class BoxesGroupComponent {
         console.error('Error calculating equipment:', err);
         this.calculationResultChanged.emit(null); // Emit null in case of error
       },
+    });
+  }
+
+  fetchCharacterData() {
+    const params = new URLSearchParams();
+    // ... existing params code ...
+    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?${params.toString()}`);
+    this.http.get<any>(url).subscribe({
+      // ... existing code ...
+    });
+  }
+
+  fetchCharacterData_NoParams() {
+    const url = this.apiConfig.getApiUrl(`/charbuilder/${this._classSelection}`);
+    this.http.get<any>(url).subscribe({
+      // ... existing code ...
     });
   }
 }

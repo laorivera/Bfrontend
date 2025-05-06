@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, HostListener } from '@angular/c
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ApiConfigService } from '../../services/api-config.service';
 
 interface ListItem {
   name: string;
@@ -64,7 +65,10 @@ export class CloakBoxComponent{
   
 
   // HTTP METHOD 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiConfig: ApiConfigService
+  ) {}
  
   // toma characters
   @Input()
@@ -72,7 +76,7 @@ export class CloakBoxComponent{
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Items(`http://127.0.0.1:8080/cloaklist/${this._classSelection}`);
+    this.fetchList_Character(this.apiConfig.getApiUrl('/cloaklist/'));
     
   }
   get classSelection(): number {
@@ -81,7 +85,7 @@ export class CloakBoxComponent{
 
 
   //
-  fetchList_Items(url: string) {
+  fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
@@ -113,7 +117,7 @@ export class CloakBoxComponent{
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
-    this.fetchItemData_Armor(`http://127.0.0.1:8080/itemdisplay/${item.name}`);
+    this.fetchItemData_Armor(this.apiConfig.getApiUrl(`/itemdisplay/${item.name}`));
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
@@ -286,8 +290,8 @@ export class CloakBoxComponent{
     this.rarityBoxColor();
 
     if (this.selectedItem?.name) {
-      this.fetchList_Rating(`http://127.0.0.1:8080/cloakratinglist/?itemcloak=${this.selectedItem.name}&rarityselect_cloak=${this.selectedRarity}`);
-      this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem.name}`);
+      this.fetchList_Rating(this.apiConfig.getApiUrl(`/cloakratinglist/?itemcloak=${this.selectedItem.name}&rarityselect_cloak=${this.selectedRarity}`));
+      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem.name}`));
     }
     this.raritySelected.emit(this.selectedRarity);
     //console.log(this.selectedRarity);
@@ -311,8 +315,8 @@ export class CloakBoxComponent{
     this.selectedEnchantments['uncommon'].value = 0;
     this.selectedEnchantments['uncommon'].type = event;
   
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentEnchantmentUncommon}&enchantment_cloaktype2=${currentEnchantmentRare}&enchantment_cloaktype3=${currentEnchantmentEpic}&enchantment_cloaktype4=${currentEnchantmentLegendary}&enchantment_cloaktype5=${currentEnchantmentUnique}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${currentEnchantmentUncommon}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentEnchantmentUncommon}&enchantment_cloaktype2=${currentEnchantmentRare}&enchantment_cloaktype3=${currentEnchantmentEpic}&enchantment_cloaktype4=${currentEnchantmentLegendary}&enchantment_cloaktype5=${currentEnchantmentUnique}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${currentEnchantmentUncommon}`));
     this.enchantmentSelected_TypeUncommon.emit(this.selectedEnchantments['uncommon'].type);
   }
 
@@ -327,9 +331,7 @@ export class CloakBoxComponent{
     this.selectedEnchantments['uncommon'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}
-    &enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}
-    &enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value);
@@ -346,8 +348,8 @@ export class CloakBoxComponent{
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['rare'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}`));
 
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
    
@@ -363,7 +365,7 @@ export class CloakBoxComponent{
     this.selectedEnchantments['rare'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
@@ -379,8 +381,8 @@ export class CloakBoxComponent{
     this.selectedEnchantments['epic'].value = 0;
     this.selectedEnchantments['epic'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}`));
     this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
   }
   
@@ -393,7 +395,7 @@ export class CloakBoxComponent{
     this.selectedEnchantments['epic'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueEpic.emit(this.selectedEnchantments['epic'].value);
@@ -409,8 +411,8 @@ export class CloakBoxComponent{
     this.selectedEnchantments['legendary'].value = 0;
     this.selectedEnchantments['legendary'].type = event;
     
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}`));
     this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
   }
   
@@ -422,7 +424,7 @@ export class CloakBoxComponent{
     this.selectedEnchantments['legendary'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}&enchantment_cloaktype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}&enchantment_cloaktype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
@@ -438,8 +440,8 @@ export class CloakBoxComponent{
     this.selectedEnchantments['unique'].value = 0;
     this.selectedEnchantments['unique'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${this.selectedEnchantments['unique'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?itemcloak=${this.selectedItem?.name}&enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${currentUncommonType}&enchantment_cloaktype2=${currentRareType}&enchantment_cloaktype3=${currentEpicType}&enchantment_cloaktype4=${currentLegendaryType}&enchantment_cloaktype5=${this.selectedEnchantments['unique'].type}`));
     this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
   }
   
@@ -448,7 +450,7 @@ export class CloakBoxComponent{
     this.selectedEnchantments['unique'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}&enchantment_cloaktype5=${this.selectedEnchantments['unique'].type}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistcloak/?enchantment_cloaktype=${this.selectedEnchantments['uncommon'].type}&enchantment_cloaktype2=${this.selectedEnchantments['rare'].type}&enchantment_cloaktype3=${this.selectedEnchantments['epic'].type}&enchantment_cloaktype4=${this.selectedEnchantments['legendary'].type}&enchantment_cloaktype5=${this.selectedEnchantments['unique'].type}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);

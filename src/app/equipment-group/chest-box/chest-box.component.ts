@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, HostListener } from '@angular/c
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ApiConfigService } from '../../services/api-config.service';
 
 interface ListItem {
   name: string;
@@ -63,7 +64,10 @@ export class ChestBoxComponent {
   
 
   // HTTP METHOD 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiConfig: ApiConfigService
+  ) {}
  
   // toma characters
   @Input()
@@ -71,7 +75,7 @@ export class ChestBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(`http://127.0.0.1:8080/chestlist/${this._classSelection}`);
+    this.fetchList_Character(this.apiConfig.getApiUrl('/chestlist/'));
     
   }
 
@@ -124,7 +128,7 @@ export class ChestBoxComponent {
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
-    this.fetchItemData_Armor(`http://127.0.0.1:8080/itemdisplay/${item.name}`);
+    this.fetchItemData_Armor(this.apiConfig.getApiUrl(`/itemdisplay/${item.name}`));
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
@@ -297,8 +301,8 @@ export class ChestBoxComponent {
     this.rarityBoxColor();
 
     if (this.selectedItem?.name) {
-      this.fetchList_Rating(`http://127.0.0.1:8080/chestratinglist/?itemchest=${this.selectedItem.name}&rarityselect_chest=${this.selectedRarity}`);
-      this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem.name}`);
+      this.fetchList_Rating(this.apiConfig.getApiUrl(`/chestratinglist/?itemchest=${this.selectedItem.name}&rarityselect_chest=${this.selectedRarity}`));
+      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem.name}`));
     }
     this.raritySelected.emit(this.selectedRarity);
     //console.log(this.selectedRarity);
@@ -322,8 +326,8 @@ export class ChestBoxComponent {
     this.selectedEnchantments['uncommon'].value = 0;
     this.selectedEnchantments['uncommon'].type = event;
   
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentEnchantmentUncommon}&enchantment_chesttype2=${currentEnchantmentRare}&enchantment_chesttype3=${currentEnchantmentEpic}&enchantment_chesttype4=${currentEnchantmentLegendary}&enchantment_chesttype5=${currentEnchantmentUnique}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${currentEnchantmentUncommon}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentEnchantmentUncommon}&enchantment_chesttype2=${currentEnchantmentRare}&enchantment_chesttype3=${currentEnchantmentEpic}&enchantment_chesttype4=${currentEnchantmentLegendary}&enchantment_chesttype5=${currentEnchantmentUnique}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${currentEnchantmentUncommon}`));
     this.enchantmentSelected_TypeUncommon.emit(this.selectedEnchantments['uncommon'].type);
   }
 
@@ -338,9 +342,7 @@ export class ChestBoxComponent {
     this.selectedEnchantments['uncommon'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}
-    &enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}
-    &enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value);
@@ -357,8 +359,8 @@ export class ChestBoxComponent {
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['rare'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype2=${this.selectedEnchantments['rare'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype2=${this.selectedEnchantments['rare'].type}`));
 
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
    
@@ -374,7 +376,7 @@ export class ChestBoxComponent {
     this.selectedEnchantments['rare'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
@@ -390,8 +392,8 @@ export class ChestBoxComponent {
     this.selectedEnchantments['epic'].value = 0;
     this.selectedEnchantments['epic'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}`));
     this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
   }
   
@@ -404,7 +406,7 @@ export class ChestBoxComponent {
     this.selectedEnchantments['epic'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueEpic.emit(this.selectedEnchantments['epic'].value);
@@ -420,8 +422,8 @@ export class ChestBoxComponent {
     this.selectedEnchantments['legendary'].value = 0;
     this.selectedEnchantments['legendary'].type = event;
     
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}`));
     this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
   }
   
@@ -433,7 +435,7 @@ export class ChestBoxComponent {
     this.selectedEnchantments['legendary'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}&enchantment_chesttype5=${currentUniqueType}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}&enchantment_chesttype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
@@ -449,8 +451,8 @@ export class ChestBoxComponent {
     this.selectedEnchantments['unique'].value = 0;
     this.selectedEnchantments['unique'].type = event;
 
-    this.fetchEnchantment_List(`http://127.0.0.1:8080/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`);
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${this.selectedEnchantments['unique'].type}`);
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistchest/?itemchest=${this.selectedItem?.name}&enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${currentUncommonType}&enchantment_chesttype2=${currentRareType}&enchantment_chesttype3=${currentEpicType}&enchantment_chesttype4=${currentLegendaryType}&enchantment_chesttype5=${this.selectedEnchantments['unique'].type}`));
     this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
   }
   
@@ -459,7 +461,7 @@ export class ChestBoxComponent {
     this.selectedEnchantments['unique'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(`http://127.0.0.1:8080/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}&enchantment_chesttype5=${this.selectedEnchantments['unique'].type}`);
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistchest/?enchantment_chesttype=${this.selectedEnchantments['uncommon'].type}&enchantment_chesttype2=${this.selectedEnchantments['rare'].type}&enchantment_chesttype3=${this.selectedEnchantments['epic'].type}&enchantment_chesttype4=${this.selectedEnchantments['legendary'].type}&enchantment_chesttype5=${this.selectedEnchantments['unique'].type}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);
