@@ -5,8 +5,9 @@
     border: 1px solid #ccc; /* Border around the entire box */
     padding: 20px; /* Inner spacing */
     margin:  10px;
-    height: 700px;
+    height: 800px;
     width: 450px; /* Fixed width for the box */
+    
     background-color: #f9f9f9; /* Light background for contrast */
     border-radius: 5px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */

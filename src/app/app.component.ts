@@ -11,8 +11,9 @@ import { CharacterBoxComponent } from "./character-group/character-box/character
   template: `
     <div class="app-container">
       <app-character-box (characterSelected)="onClassSelected($event)"></app-character-box>
+      <app-stats [calculationResult]="calculationResult"></app-stats> 
       <app-boxes-group [classSelection]="classSelection" (calculationResultChanged)="onCalculationResultChanged($event)"></app-boxes-group>
-      <app-stats [calculationResult]="calculationResult"></app-stats>
+      
     </div>
   `,
   styles: [`

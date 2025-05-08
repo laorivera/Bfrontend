@@ -1,11 +1,10 @@
 .equipment-boxes {
-  position: relative;
-  border: 1px solid #ccc;
-  width: 400px;
-  height: 900px;
   position: absolute;
-  left: 550px;
+  border: 1px solid #ccc;
+  left: 1050px;
   top: 230px;
+  width: 400px;
+  height: 800px;
   background-color: #f5f5f5;
 }
 

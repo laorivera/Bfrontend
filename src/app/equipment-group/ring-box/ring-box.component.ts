@@ -289,21 +289,10 @@ export class RingBoxComponent {
 
     this.rarityBoxColor();
 
-    if (this.selectedItem?.name) {
-      this.fetchList_Rating(this.apiConfig.getApiUrl(`/ringratinglist/?itemring=${this.selectedItem.name}&rarityselect_ring=${this.selectedRarity}`));
-      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem.name}`));
-    }
     this.raritySelected.emit(this.selectedRarity);
     //console.log(this.selectedRarity);
   }
 
-  onChangeRating(event: number) {
-    const index = +event;
-    this.selectedRating = this.listRating[index];
-    //console.log(this.selectedRating);
-
-    this.ratingSelected.emit(this.selectedRating);
-  }
 
   onChangeEnchantment_TypeUncommon(event: string){
     const currentEnchantmentUncommon = this.selectedEnchantments['uncommon'].type;
