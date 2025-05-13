@@ -1,0 +1,10 @@
+  <div class="main-container">
+    <h1>Dark And Data</h1>
+    <div class="top-container">
+        <app-character-box (characterSelected)="onClassSelected($event)" (raceSelected)="onRaceSelected($event)"> </app-character-box>
+     </div>
+    <div class="bottom-container">
+      <app-stats [calculationResult]="calculationResult"></app-stats> 
+      <app-boxes-group [classSelection]="classSelection" [raceSelection]="raceSelection" (calculationResultChanged)="onCalculationResultChanged($event)"></app-boxes-group>
+    </div>
+  </div>

@@ -287,6 +287,10 @@ export class RingBoxComponentTwo {
     this.selectedRarity = +event;
     //console.log(this.selectedRarity);
 
+    if (this.selectedItem?.name){
+      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistringtwo/?itemringtwo=${this.selectedItem?.name}`));
+    }
+    
     this.rarityBoxColor();
 
     this.raritySelected.emit(this.selectedRarity);

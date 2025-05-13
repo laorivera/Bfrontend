@@ -34,6 +34,7 @@ import { ApiConfigService } from '../services/api-config.service';
 
 export class BoxesGroupComponent {
   private _classSelection: number = 0;
+  private _raceSelection: string = '';
   
   @Input()
   set classSelection(value: number) {
@@ -45,6 +46,16 @@ export class BoxesGroupComponent {
     return this._classSelection;
   }
 
+  @Input()
+  set raceSelection(value: string) {
+    this._raceSelection = value;
+    this.onRaceSelected();
+  }
+
+  get raceSelection(): string {
+    return this._raceSelection;
+  }
+
   @Output() calculationResultChanged = new EventEmitter<any>(); 
 
   @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
@@ -54,6 +65,7 @@ export class BoxesGroupComponent {
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
   @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
+
   selectedItems:        {[key: string]: string} = {}; 
   selectedRarites:      {[key: string]: string} = {}; 
   selectedRatings:      {[key: string]: string} = {};
@@ -88,10 +100,17 @@ export class BoxesGroupComponent {
     this.selectedRarites = {}; 
     this.selectedRatings = {}; 
     this.selectedEnchant = {}; 
-    this.selectedEnchantValue = {}; 
+    this.selectedEnchantValue = {};
     
     this.calculateCharacter(); // funcion calcula character base
   }
+
+  onRaceSelected() {
+    // Reset all selected values
+    console.log(this._raceSelection)
+    this.calculateEquipment(); // funcion calcula character base
+  }
+
 
   resetEnchantment(slot: string){
     //console.log(slot)
@@ -354,7 +373,7 @@ export class BoxesGroupComponent {
       } 
 
       
-    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?${params.toString()}`);
+    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?race=${this._raceSelection}&${params.toString()}`);
    
     this.http.get<any>(url).subscribe({
       next: (response) => {

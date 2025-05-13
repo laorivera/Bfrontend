@@ -8,30 +8,21 @@ import { CharacterBoxComponent } from "./character-group/character-box/character
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, BoxesGroupComponent, StatsComponent, CharacterBoxComponent], 
-  template: `
-    <div class="app-container">
-      <app-character-box (characterSelected)="onClassSelected($event)"></app-character-box>
-      <app-stats [calculationResult]="calculationResult"></app-stats> 
-      <app-boxes-group [classSelection]="classSelection" (calculationResultChanged)="onCalculationResultChanged($event)"></app-boxes-group>
-      
-    </div>
-  `,
-  styles: [`
-    .app-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-    }
-  `]
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 }) 
 
 export class AppComponent {
   calculationResult: any = null; // Store the calculation result
   classSelection: number = 0; // Store the selected class
+  raceSelection: string = ""; // Store
 
   onClassSelected(classId: number) {
     this.classSelection = classId;
+  }
+
+  onRaceSelected(raceId: string) {
+    this.raceSelection = raceId;
   }
 
   onCalculationResultChanged(result: any) {

@@ -20,13 +20,15 @@
       <div class="modal-box">
         <div class="rarity-buttons">
           @for (rarity of rarityBoots; track $index) {
-            <button 
-              [class.active]="selectedRarity === $index"
-              (click)="onChangeRarity($index)"
-              class="rarity-button"
-            >
-              {{ $index === 0 ? '0' : $index === 1 ? 'I' : $index === 2 ? 'II' : $index === 3 ? 'III' : $index === 4 ? 'IV' : $index === 5 ? 'V' : $index === 6 ? 'VI' : 'VII' }}
-            </button>
+            @if ($index > 0) {
+              <button 
+                [class.active]="selectedRarity === $index"
+                (click)="onChangeRarity($index)"
+                class="rarity-button"
+              >
+                {{ $index === 1 ? 'I' : $index === 2 ? 'II' : $index === 3 ? 'III' : $index === 4 ? 'IV' : $index === 5 ? 'V' : $index === 6 ? 'VI' : 'VII' }}
+              </button>
+            }
           }
         </div>
         <!-- additional item data -->

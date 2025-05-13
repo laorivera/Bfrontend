@@ -1,18 +1,34 @@
-<div class="character-box">
-    <!-- Display the selected character's image -->
-    <img
-      [src]="selectedCharacterImage"
-      alt="Selected Character"
-      class="character-image"
-    />
-  
-    <!-- Dropdown or list to select a character -->
-    <div class="character-selection">
-      <label for="character-select">Choose a character:</label>
-      <select id="character-select" (change)="onChange($event)">
+<div class="top-group">
+  <div class="character-box">
+
+     <div class="character-selection">
+        <label for="character-select">Choose a classr:</label>
+        <select id="character-select" (change)="onChange($event)">
         @for (list of characterClasses; track $index) {
           <option [value]="$index">{{ list }}</option>
         }
       </select>
+      </div>
+    <!-- Display the selected character's image -->
+    <img
+      [src]="selectedCharacterImage"
+      alt="Select a Class"
+      class="character-image"
+    />
+  </div>
+  <div class="race-box">
+    <div class="race-selection">
+      <label for="race-select">Choose a race:</label>
+      <select id="race-select" (change)="onChangeRace($event)">
+        @for (list of characterRaces; track $index) {
+        <option [value]="$index">{{ list }}</option>
+        }
+      </select>
+         <img
+      [src]="selectedRaceImage"
+      alt="Select a Race"
+      class="race-image"
+      />
     </div>
   </div>
+</div>

@@ -31,22 +31,7 @@
         </div>
         <!-- additional item data -->
         <div class="item-data">
-          @if(selectedItemData?.itemdata?.headshotReduction){
-          <p>Headshot Reduction: {{selectedItemData?.itemdata?.headshotReduction}} % </p>
-          }
-          @if(selectedItemData?.itemdata?.magicalResistance && selectedItemData?.itemdata?.magicalResistance[selectedRarity]){
-            <p>Magical Resistance: {{selectedItemData?.itemdata?.magicalResistance[selectedRarity][0]}} </p>
-          }
-          @if(selectedItemData?.itemdata?.projectileReduction){
-            <p>Projectile Reduction: {{selectedItemData?.itemdata?.projectileReduction}} % </p>
-          }
-          @if(selectedItemData?.itemdata?.moveSpeed){
-            <p>Move Speed: {{selectedItemData?.itemdata?.moveSpeed["1"] }} % </p>
-          }
-          @if(selectedItemData?.itemdata?.armorRatings && selectedItemData?.itemdata?.armorRatings[selectedRarity]){
-            <p>Armor Rating: {{selectedItemData?.itemdata?.armorRatings[selectedRarity]}} </p>
-          }
-  
+       
           @if(selectedItemData?.itemdataacc?.BaseAttribute?.strength && selectedItemData?.itemdataacc?.BaseAttribute?.strength[selectedRarity] ){
             <p>Strength: {{selectedItemData?.itemdataacc?.BaseAttribute?.strength[selectedRarity] }} </p>
           }

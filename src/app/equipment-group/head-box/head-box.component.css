@@ -164,100 +164,88 @@
   transform: scale(1.1);
 }
 
-/* Rarity 0 - Unselected */
-.rarity-button:nth-child(1) {
-  border-color: #ccc;
-  color: #666;
-}
-
-.rarity-button:nth-child(1):hover,
-.rarity-button:nth-child(1).active {
-  background-color: #ccc;
-  color: white;
-}
-
 /* Rarity 1 - Poor */
-.rarity-button:nth-child(2) {
+.rarity-button:nth-child(1) {
   border-color: #473737;
   color: #473737;
 }
 
-.rarity-button:nth-child(2):hover,
-.rarity-button:nth-child(2).active {
+.rarity-button:nth-child(1):hover,
+.rarity-button:nth-child(1).active {
   background-color: #473737;
   color: white;
 }
 
 /* Rarity 2 - Common */
-.rarity-button:nth-child(3) {
+.rarity-button:nth-child(2) {
   border-color: #f3eeee;
   color: #666;
 }
 
-.rarity-button:nth-child(3):hover,
-.rarity-button:nth-child(3).active {
+.rarity-button:nth-child(2):hover,
+.rarity-button:nth-child(2).active {
   background-color: #f3eeee;
   color: #333;
 }
 
 /* Rarity 3 - Uncommon */
-.rarity-button:nth-child(4) {
+.rarity-button:nth-child(3) {
   border-color: #90ee90;
   color: #2e7d32;
 }
 
-.rarity-button:nth-child(4):hover,
-.rarity-button:nth-child(4).active {
+.rarity-button:nth-child(3):hover,
+.rarity-button:nth-child(3).active {
   background-color: #90ee90;
   color: #1b5e20;
 }
 
 /* Rarity 4 - Rare */
-.rarity-button:nth-child(5) {
+.rarity-button:nth-child(4) {
   border-color: #87ceeb;
   color: #0277bd;
 }
 
-.rarity-button:nth-child(5):hover,
-.rarity-button:nth-child(5).active {
+.rarity-button:nth-child(4):hover,
+.rarity-button:nth-child(4).active {
   background-color: #87ceeb;
   color: #01579b;
 }
 
 /* Rarity 5 - Epic */
-.rarity-button:nth-child(6) {
+.rarity-button:nth-child(5) {
   border-color: #9370db;
   color: #6a1b9a;
 }
 
-.rarity-button:nth-child(6):hover,
-.rarity-button:nth-child(6).active {
+.rarity-button:nth-child(5):hover,
+.rarity-button:nth-child(5).active {
   background-color: #9370db;
   color: #4a148c;
 }
 
 /* Rarity 6 - Legendary */
-.rarity-button:nth-child(7) {
+.rarity-button:nth-child(6) {
   border-color: #ffa500;
-  color: #e65100;
+  color: #e0921df2;
 }
 
-.rarity-button:nth-child(7):hover,
-.rarity-button:nth-child(7).active {
+.rarity-button:nth-child(6):hover,
+.rarity-button:nth-child(6).active {
   background-color: #ffa500;
   color: #bf360c;
 }
 
 /* Rarity 7 - Unique */
-.rarity-button:nth-child(8) {
-  border-color: #ece7b4ec;
-  color: #b8860b;
+.rarity-button:nth-child(7) {
+  border-color: #e3b144;
+  color: #e4d693;
 }
 
-.rarity-button:nth-child(8):hover,
-.rarity-button:nth-child(8).active {
-  background-color: #ece7b4ec;
-  color: #795548;
+.rarity-button:nth-child(7):hover,
+.rarity-button:nth-child(7).active {
+  background-color: #e3b144;
+  color: #e4d693;
 }
 
 .modal-content {

@@ -287,6 +287,9 @@ export class RingBoxComponent {
     this.selectedRarity = +event;
     //console.log(this.selectedRarity);
 
+    if (this.selectedItem?.name){
+      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}`));
+    }
     this.rarityBoxColor();
 
     this.raritySelected.emit(this.selectedRarity);
@@ -304,8 +307,8 @@ export class RingBoxComponent {
     this.selectedEnchantments['uncommon'].value = 0;
     this.selectedEnchantments['uncommon'].type = event;
   
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtwotype=${currentEnchantmentUncommon}&enchantment_ringtwotype2=${currentEnchantmentRare}&enchantment_ringtwotype3=${currentEnchantmentEpic}&enchantment_ringtwotype4=${currentEnchantmentLegendary}&enchantment_ringtwotype5=${currentEnchantmentUnique}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${currentEnchantmentUncommon}`));
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtype=${currentEnchantmentUncommon}&enchantment_ringtype2=${currentEnchantmentRare}&enchantment_ringtype3=${currentEnchantmentEpic}&enchantment_ringtype4=${currentEnchantmentLegendary}&enchantment_ringtype5=${currentEnchantmentUnique}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${currentEnchantmentUncommon}`));
     this.enchantmentSelected_TypeUncommon.emit(this.selectedEnchantments['uncommon'].type);
   }
 
@@ -320,7 +323,7 @@ export class RingBoxComponent {
     this.selectedEnchantments['uncommon'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value);
@@ -336,8 +339,8 @@ export class RingBoxComponent {
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['rare'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype2=${this.selectedEnchantments['rare'].type}`));
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype2=${this.selectedEnchantments['rare'].type}`));
 
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
    
@@ -353,7 +356,7 @@ export class RingBoxComponent {
     this.selectedEnchantments['rare'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtwotype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
@@ -369,8 +372,8 @@ export class RingBoxComponent {
     this.selectedEnchantments['epic'].value = 0;
     this.selectedEnchantments['epic'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}`));
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}`));
     this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
   }
   
@@ -383,7 +386,7 @@ export class RingBoxComponent {
     this.selectedEnchantments['epic'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtwotype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtwotype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueEpic.emit(this.selectedEnchantments['epic'].value);
@@ -399,8 +402,8 @@ export class RingBoxComponent {
     this.selectedEnchantments['legendary'].value = 0;
     this.selectedEnchantments['legendary'].type = event;
     
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${this.selectedEnchantments['legendary'].type}`));
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${this.selectedEnchantments['legendary'].type}`));
     this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
   }
   
@@ -412,7 +415,7 @@ export class RingBoxComponent {
     this.selectedEnchantments['legendary'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtwotype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtwotype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtwotype4=${this.selectedEnchantments['legendary'].type}&enchantment_ringtwotype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtype4=${this.selectedEnchantments['legendary'].type}&enchantment_ringtype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
@@ -428,8 +431,8 @@ export class RingBoxComponent {
     this.selectedEnchantments['unique'].value = 0;
     this.selectedEnchantments['unique'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${currentUncommonType}&enchantment_ringtwotype2=${currentRareType}&enchantment_ringtwotype3=${currentEpicType}&enchantment_ringtwotype4=${currentLegendaryType}&enchantment_ringtwotype5=${this.selectedEnchantments['unique'].type}`));
+    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistring/?itemring=${this.selectedItem?.name}&enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${currentUniqueType}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${currentUncommonType}&enchantment_ringtype2=${currentRareType}&enchantment_ringtype3=${currentEpicType}&enchantment_ringtype4=${currentLegendaryType}&enchantment_ringtype5=${this.selectedEnchantments['unique'].type}`));
     this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
   }
   
@@ -438,7 +441,7 @@ export class RingBoxComponent {
     this.selectedEnchantments['unique'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtwotype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtwotype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtwotype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtwotype4=${this.selectedEnchantments['legendary'].type}&enchantment_ringtwotype5=${this.selectedEnchantments['unique'].type}`));
+    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistring/?enchantment_ringtype=${this.selectedEnchantments['uncommon'].type}&enchantment_ringtype2=${this.selectedEnchantments['rare'].type}&enchantment_ringtype3=${this.selectedEnchantments['epic'].type}&enchantment_ringtype4=${this.selectedEnchantments['legendary'].type}&enchantment_ringtype5=${this.selectedEnchantments['unique'].type}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);

@@ -13,8 +13,10 @@ import { Output, EventEmitter } from '@angular/core';
 export class CharacterBoxComponent {
     //selected character's image
     selectedCharacterImage: string = '';
+    selectedRaceImage: string = '';
 
   @Output() characterSelected = new EventEmitter<number>(); 
+  @Output() raceSelected = new EventEmitter<string>();
 
   // List of character classes
   characterClasses: string[] = [ 'No selection',
@@ -22,11 +24,21 @@ export class CharacterBoxComponent {
     'Warlock', 'Bard', 'Druid', 'Ranger', 'Sorcerer'
   ];
 
+  characterRaces: string[] = [ 'No selection', 'Elf', 'Dark Elf', 'Felidian', 'Phanter', 'Lycan', 'Lizardmen',
+    'Mummy', 'Orc', 'Zombie', 'Skeleton', 'Elite Skeleton', 'Nightmare Skeleton', 'Skeleton Champion', 'Frost Walker'
+   ]
+
+
   onChange(event: Event) {
     const target = event.target as HTMLSelectElement;
+    this.selectRace(0); // Reset
     this.selectCharacter(+target.value); // Convert string to number
-  }
 
+  }
+  onChangeRace(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectRace(+target.value); // Convert string to number
+  }
   // Method to toggle or change the selected character
   selectCharacter(index: number) {
     console.log('Character selected:', index); // debug
@@ -34,4 +46,8 @@ export class CharacterBoxComponent {
     this.characterSelected.emit(index);
   }
 
+  selectRace(index: number) {
+    this.selectedRaceImage = `assets/${this.characterRaces[index]}.png`;
+    this.raceSelected.emit(this.characterRaces[index]);
+  }
 }
