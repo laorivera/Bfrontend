@@ -10,4 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class StatsComponent {
   @Input() calculationResult: any; // recive los stats calculados
+
 }

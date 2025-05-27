@@ -63,3 +63,9 @@ cloak-box {
   
 }
 
+primary-weapon-box {
+  position: absolute;
+  top: 70px;
+  left: 40px;
+}
+

@@ -151,5 +151,24 @@
     (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_ringtwovalue5', $event)"
   > </ring-box-two>
 
+  <primary-weapon-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_PrimaryWeapon('itempwo', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_pwo', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_pwo', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_pwotype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_pwovalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_pwotype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_pwovalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_pwotype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_pwovalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_pwotype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_pwovalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_pwotype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_pwovalue5', $event)"
+  > </primary-weapon-box>
+
+  
+
 
 </div>

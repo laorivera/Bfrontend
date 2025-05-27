@@ -11,6 +11,7 @@ import { CloakBoxComponent } from './cloak-box/cloak-box.component';
 import { RingBoxComponent } from './ring-box/ring-box.component';
 import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
 import { ApiConfigService } from '../services/api-config.service';
+import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
 
 
 @Component({
@@ -26,8 +27,9 @@ import { ApiConfigService } from '../services/api-config.service';
     NecklaceBoxComponent,
     CloakBoxComponent,
     RingBoxComponent,
-    RingBoxComponentTwo
-  ],
+    RingBoxComponentTwo,
+    PrimaryWeaponBoxComponent
+],
   templateUrl: './equipment-group.component.html',
   styleUrl: './equipment-group.component.css'
 })
@@ -65,6 +67,8 @@ export class BoxesGroupComponent {
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
   @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
+  @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
+
 
   selectedItems:        {[key: string]: string} = {}; 
   selectedRarites:      {[key: string]: string} = {}; 
@@ -266,6 +270,23 @@ export class BoxesGroupComponent {
     this.selectedItems[slot] = itemName;
     this.calculateEquipment(); 
   }
+
+  onItemSelected_PrimaryWeapon(slot: string, itemName: string) {
+    const slotType = slot.split('item')[1]; 
+    //console.log(slotType)
+    if (this.selectedRarites[`rarityselect_${slotType}`]){
+      this.resetRarity(slotType);
+    }
+    
+    if (this.selectedRatings[`armorrating_${slotType}`]){
+      this.resetRating(slotType);
+    }
+    this.resetEnchantment(slotType);
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+   
+
 
   onRaritySelected(slot: string, rarity: number){ 
     this.selectedRarites[slot] = String(rarity);
