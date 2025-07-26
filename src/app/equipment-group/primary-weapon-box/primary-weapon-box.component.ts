@@ -47,7 +47,6 @@ export class PrimaryWeaponBoxComponent {
 
   
   // send data to parents
-  
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() raritySelected = new EventEmitter<number>();
@@ -62,7 +61,6 @@ export class PrimaryWeaponBoxComponent {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   
-
   // HTTP METHOD 
   constructor(
     private http: HttpClient,
@@ -88,7 +86,7 @@ export class PrimaryWeaponBoxComponent {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
       },
 
       error: (err) => {
@@ -226,7 +224,7 @@ export class PrimaryWeaponBoxComponent {
       next: (response) => {
         console.log('Item data response:', response);
         // Check if the response has the expected structure
-        if (response && response.itemdata) {
+        if (response && response.itemdataweapon) {
           this.selectedItemData = response;
           console.log('Selected item data:', this.selectedItemData);
         } else {
@@ -429,7 +427,6 @@ export class PrimaryWeaponBoxComponent {
     this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
   }
   
-
   onChangeEnchantment_TypeUnique(event: string){
     const currentUncommonType = this.selectedEnchantments['uncommon'].type;
     const currentRareType = this.selectedEnchantments['rare'].type;

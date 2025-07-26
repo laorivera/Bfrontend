@@ -1,6 +1,6 @@
 <div class="equipment-box head-box" [ngClass]="rarityBoxColor()">
     <img
-      [src]="selectedItem?.image || 'assets/placeholder.png'"
+      [src]="selectedItem?.image || 'assets/placeholderx.png'"
       alt="Head Item"
       class="equipment-image"
     />
@@ -210,6 +210,7 @@
    </div>
         <div class="button-close">
           <button (click)="showContextMenu = false">Close</button>
+          <button (click)="resetSelection()">Unequip</button>
         </div>
    </div>
       }

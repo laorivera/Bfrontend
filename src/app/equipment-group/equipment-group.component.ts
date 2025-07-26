@@ -12,6 +12,7 @@ import { RingBoxComponent } from './ring-box/ring-box.component';
 import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
 import { ApiConfigService } from '../services/api-config.service';
 import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
+import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
 
 
 @Component({
@@ -28,15 +29,40 @@ import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-b
     CloakBoxComponent,
     RingBoxComponent,
     RingBoxComponentTwo,
-    PrimaryWeaponBoxComponent
+    PrimaryWeaponBoxComponent,
+    SecondaryWeaponBoxComponent
 ],
   templateUrl: './equipment-group.component.html',
   styleUrl: './equipment-group.component.css'
 })
 
 export class BoxesGroupComponent {
+   private doubleHandlist: string[] = [
+      "Lute",
+      "Zweihander",
+      "War Maul",
+      "Crystal Sword",
+      "Quarterstaff",
+      "Longsword",
+      "Bardiche",
+      "Halberd",
+      "Spear",
+      "Battle Axe",
+      "Double Axe",
+      "Felling Axe",
+      "Longbow",
+      "Recurve Bow",
+      "Survival Bow",
+      "Crossbow",
+      "Windlass Crossbow",
+      "Ceremonial Staff",
+      "Magic Staff",
+      "Spellbook",
+      "Pavise",
+    ]
   private _classSelection: number = 0;
   private _raceSelection: string = '';
+  private doubleHanded: boolean = false;
   
   @Input()
   set classSelection(value: number) {
@@ -59,6 +85,7 @@ export class BoxesGroupComponent {
   }
 
   @Output() calculationResultChanged = new EventEmitter<any>(); 
+  
 
   @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
   @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
@@ -68,6 +95,7 @@ export class BoxesGroupComponent {
   @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
   @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
+
 
 
   selectedItems:        {[key: string]: string} = {}; 
@@ -277,6 +305,30 @@ export class BoxesGroupComponent {
     if (this.selectedRarites[`rarityselect_${slotType}`]){
       this.resetRarity(slotType);
     }
+  
+    if (this.selectedRatings[`armorrating_${slotType}`]){
+      this.resetRating(slotType);
+    }
+    this.resetEnchantment(slotType);
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+
+  doubleHandedSelected(itemName: string) {
+   for (const item of this.doubleHandlist) {
+      if (item === itemName) {
+        return true; // 
+      }
+    }
+    return false; // Not found in the list
+  }
+   
+  onItemSelected_SecondaryWeapon(slot: string, itemName: string) {
+    const slotType = slot.split('item')[1]; 
+    //console.log(slotType)
+    if (this.selectedRarites[`rarityselect_${slotType}`]){
+      this.resetRarity(slotType);
+    }
     
     if (this.selectedRatings[`armorrating_${slotType}`]){
       this.resetRating(slotType);
@@ -285,7 +337,6 @@ export class BoxesGroupComponent {
     this.selectedItems[slot] = itemName;
     this.calculateEquipment(); 
   }
-   
 
 
   onRaritySelected(slot: string, rarity: number){ 

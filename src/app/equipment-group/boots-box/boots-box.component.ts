@@ -89,7 +89,7 @@ export class BootsBoxComponent {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
       },
 
       error: (err) => {

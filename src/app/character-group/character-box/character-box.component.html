@@ -1,20 +1,20 @@
 <div class="top-group">
   <div class="character-box">
-
      <div class="character-selection">
         <label for="character-select">Choose a classr:</label>
         <select id="character-select" (change)="onChange($event)">
-        @for (list of characterClasses; track $index) {
-          <option [value]="$index">{{ list }}</option>
-        }
-      </select>
-      </div>
-    <!-- Display the selected character's image -->
-    <img
-      [src]="selectedCharacterImage"
-      alt="Select a Class"
-      class="character-image"
-    />
+          @for (list of characterClasses; track $index) {
+           <option [value]="$index">{{ list }}</option>
+          }
+        </select>
+        <div class="character-image">
+          <img
+            [src]="selectedCharacterImage"
+            alt="Select a Class"
+            class="character-image"
+          />
+        </div>
+     </div>
   </div>
   <div class="race-box">
     <div class="race-selection">
