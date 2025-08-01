@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -68,6 +70,8 @@ export class GlovesBoxComponent {
     private http: HttpClient,
     private apiConfig: ApiConfigService
   ) {}
+
+  private parent = inject(BoxesGroupComponent, { host: true });
  
   // toma characters
   @Input()

@@ -2,12 +2,21 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  standalone: true,
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  // Add any properties or methods needed for the sidebar functionality
-  menuItems: string[] = ['Home', 'About', 'Support'];
+  // Simple navigation handler
+  navigateTo(destination: string) {
+    console.log(`Navigating to ${destination}`);
+    // Add your navigation logic here
+    // window.location.href = `/${destination}`;
+    // or use a service to handle navigation
+  }
 
+  // Support button handler
+  openSupport() {
+    window.open('https://support.yoursite.com', '_blank');
+  }
 }

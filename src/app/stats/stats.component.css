@@ -2,16 +2,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two columns of equal width */
     gap: 20px; /* Space between grid items */
-    border: 1px solid #ccc; /* Border around the entire box */
+    border: 0.5px solid #515153f2; /* Border around the entire box */
     padding: 10px; /* Inner spacing */
     margin:  5px;
     height: 750px;
     width: 450px; /* Fixed width for the box */
-    
-    background-color: #222222; /* Light background for contrast */
+    overflow: hidden;
+    background-color: #22222200; /* Light background for contrast */
     border-radius: 6px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     overflow-y: auto;
+    scrollbar-width: thin;
 }
   
 .stats h2 {

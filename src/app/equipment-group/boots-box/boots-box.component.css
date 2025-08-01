@@ -1,6 +1,6 @@
 .equipment-box {
     position: relative;
-    border: 2px solid #ccc;
+    border: 2px solid #7e7d7d;
     cursor: pointer;
     width: 100px;
     height: 100px;
@@ -18,14 +18,17 @@
   }
   
   .equipment-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
+  position: absolute;
+    bottom: 0%;
+    left: 100%;
+    margin-right: 5px;
     background: #222222;
-    border: 1px solid #ccc;
-    z-index: 10;
-    max-height: 200px;
+    border: 1px solid #7e7d7d;
+    width: 130px;
+    z-index: 15;
+    max-height: 400px;
     overflow-y: auto;
+    scrollbar-width: thin;
   }
   
   .equipment-item {
@@ -45,8 +48,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
-    border: 1px solid #ccc;
+    background: rgb(19, 18, 19);
+    border: 1px solid #7e7d7d;
+    border-radius: 6px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 100;
     padding: 20px;
@@ -77,15 +81,15 @@
     justify-content: space-between;
     margin-bottom: 15px;
     padding: 5px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #7e7d7d;
   }
   
   .rarity-button {
     width: 30px;
     height: 30px;
     border-radius: 20%;
-    border: 2px solid #ccc;
-    background: white;
+    border: 2px solid #7e7d7d;
+    background: rgb(19, 18, 19);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -343,7 +347,7 @@
   .enchantmentvalue-Unique-select select {
     flex: 1;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: solid #7e7d7d;;
     border-radius: 3px;
   }
   
@@ -369,7 +373,7 @@
     gap: 20px;
     margin: 15px 0;
     padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #7e7d7d;;
   }
   
   .rating-select label {
@@ -380,7 +384,7 @@
   .rating-select select {
     width: 60px;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px  solid #7e7d7d;;
     border-radius: 3px;
     text-align: right;
   }
@@ -403,7 +407,7 @@
   /* Make all select elements in the modal have consistent styling */
   .modal-content select {
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #7e7d7d;;
     border-radius: 3px;
   }
   
@@ -440,7 +444,23 @@
   .enchantment-Unique-select select {
     padding: 5px;
     border-radius: 3px;
-    border: 1px solid #ccc;
-    background-color: rgba(0, 0, 0, 0);
+    border: 1px  solid #7e7d7d;
+    background-color: rgba(108, 103, 103, 0);
     color: white;
   }
+
+.button-close button {
+  background-color: #2d2d2d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.modal-box #rating-select {
+  background-color: #2d2d2d;
+  color: white;
+  border: 1px solid #444;
+}

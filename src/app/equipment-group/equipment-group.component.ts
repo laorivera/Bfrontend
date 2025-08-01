@@ -91,6 +91,7 @@ export class BoxesGroupComponent {
   @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
   @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
   @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
+  @ViewChildren(BootsBoxComponent) bootsBoxes!: QueryList<BootsBoxComponent>;
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
   @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
@@ -125,6 +126,15 @@ export class BoxesGroupComponent {
     }
     if (this.necklaceBoxes) {
       this.necklaceBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.cloakBoxes) {
+      this.cloakBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.ringBoxes) {
+      this.ringBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.primaryWeaponBoxes) {
+      this.primaryWeaponBoxes.forEach(component => component.resetSelection());
     }
     
     // Reset all selected values
@@ -487,4 +497,26 @@ export class BoxesGroupComponent {
       // ... existing code ...
     });
   }
+
+  closeAllDropdownsExcept(except?: any) {
+  // Close all equipment dropdowns
+  [
+    ...this.headBoxes?.toArray() || [],
+    ...this.chestBoxes?.toArray() || [],
+    ...this.glovesBoxes?.toArray() || [],
+    ...this.pantsBoxes?.toArray() || [],
+    ...this.bootsBoxes?.toArray() || [],
+    ...this.necklaceBoxes?.toArray() || [],
+    ...this.cloakBoxes?.toArray() || [],
+    ...this.ringBoxes?.toArray() || [],
+    ...this.primaryWeaponBoxes?.toArray() || [],
+    
+  ].forEach(box => {
+    if (box !== except) {
+      box.showList = false;
+    }
+  });
+}
+
+
 }

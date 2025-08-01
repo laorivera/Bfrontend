@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output, HostListener } from '@angular/c
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BoxesGroupComponent } from "../equipment-group.component";
 import { ApiConfigService } from '../../services/api-config.service';
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -62,6 +64,7 @@ export class BootsBoxComponent {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   
+  private parent = inject(BoxesGroupComponent, { host: true });
 
   // HTTP METHOD 
   constructor(
@@ -248,6 +251,7 @@ export class BootsBoxComponent {
     // Only toggle showList if we're not clicking inside the modal box
     const target = event.target as HTMLElement;
     if (!target.closest('.modal-box')) {
+      this.parent.closeAllDropdownsExcept(this);
       this.showList = !this.showList;
     }
     event.stopPropagation(); // Prevent document click from immediately closing it

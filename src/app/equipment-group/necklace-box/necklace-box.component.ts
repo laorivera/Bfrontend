@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -62,6 +64,7 @@ export class NecklaceBoxComponent {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   
+  private parent = inject(BoxesGroupComponent, { host: true });
 
   // HTTP METHOD 
   constructor(
@@ -249,6 +252,7 @@ export class NecklaceBoxComponent {
     const target = event.target as HTMLElement;
     if (!target.closest('.modal-box')) {
       this.showList = !this.showList;
+      this.parent.closeAllDropdownsExcept(this)
     }
     event.stopPropagation(); // Prevent document click from immediately closing it
   }

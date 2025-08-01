@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -68,6 +70,7 @@ export class SecondaryWeaponBoxComponent {
     private apiConfig: ApiConfigService
   ) {}
  
+  private parent = inject(BoxesGroupComponent, { host: true });
   // toma characters
   @Input()
   set classSelection(value: number) {
@@ -244,6 +247,7 @@ export class SecondaryWeaponBoxComponent {
     const target = event.target as HTMLElement;
     if (!target.closest('.modal-box')) {
       this.showList = !this.showList;
+      this.parent.closeAllDropdownsExcept(this)
     }
     event.stopPropagation(); // Prevent document click from immediately closing it
   }
