@@ -54,5 +54,21 @@ export interface ComputedStats {
   
   export interface CalculationResult {
     computedstats: ComputedStats;
+    computedstatsweapon: ComputedWeaponStats;
     stats: Stats;
   }
+
+  
+  export interface WeaponStats {
+    Attackone: number;
+    Attacktwo: number;
+    Attackthree: number;
+    Attackfour: number;
+}
+
+export interface ComputedWeaponStats {
+  PrimaryWeapon: WeaponStats;
+  SecondaryWeapon: WeaponStats;
+  PrimaryImpactPower: number;
+  SecondaryImpactPower: number;
+}

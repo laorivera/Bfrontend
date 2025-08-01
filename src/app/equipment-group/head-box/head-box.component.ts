@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -69,6 +71,8 @@ export class HeadBoxComponent {
     private http: HttpClient,
     private apiConfig: ApiConfigService
   ) {}
+
+  private parent = inject(BoxesGroupComponent, { host: true });
  
   // toma characters
   @Input()
@@ -89,7 +93,7 @@ export class HeadBoxComponent {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
       },
 
       error: (err) => {
@@ -112,7 +116,6 @@ export class HeadBoxComponent {
     }
  
   }
-
 
   selectItem(item: ListItem) {
     this.resetSelection();
@@ -258,6 +261,7 @@ export class HeadBoxComponent {
     event.preventDefault(); // Prevent browser context menu
     if (this.selectedItem && this.selectedItem.name) {
       this.showContextMenu = true;
+      this.parent.closeAllDropdownsExcept(this)
     }
   }
   // Single document click handler for both list and context menu

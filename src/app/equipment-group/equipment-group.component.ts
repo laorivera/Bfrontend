@@ -11,6 +11,8 @@ import { CloakBoxComponent } from './cloak-box/cloak-box.component';
 import { RingBoxComponent } from './ring-box/ring-box.component';
 import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
 import { ApiConfigService } from '../services/api-config.service';
+import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
+import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
 
 
 @Component({
@@ -26,15 +28,41 @@ import { ApiConfigService } from '../services/api-config.service';
     NecklaceBoxComponent,
     CloakBoxComponent,
     RingBoxComponent,
-    RingBoxComponentTwo
-  ],
+    RingBoxComponentTwo,
+    PrimaryWeaponBoxComponent,
+    SecondaryWeaponBoxComponent
+],
   templateUrl: './equipment-group.component.html',
   styleUrl: './equipment-group.component.css'
 })
 
 export class BoxesGroupComponent {
+   private doubleHandlist: string[] = [
+      "Lute",
+      "Zweihander",
+      "War Maul",
+      "Crystal Sword",
+      "Quarterstaff",
+      "Longsword",
+      "Bardiche",
+      "Halberd",
+      "Spear",
+      "Battle Axe",
+      "Double Axe",
+      "Felling Axe",
+      "Longbow",
+      "Recurve Bow",
+      "Survival Bow",
+      "Crossbow",
+      "Windlass Crossbow",
+      "Ceremonial Staff",
+      "Magic Staff",
+      "Spellbook",
+      "Pavise",
+    ]
   private _classSelection: number = 0;
   private _raceSelection: string = '';
+  private doubleHanded: boolean = false;
   
   @Input()
   set classSelection(value: number) {
@@ -57,14 +85,19 @@ export class BoxesGroupComponent {
   }
 
   @Output() calculationResultChanged = new EventEmitter<any>(); 
+  
 
   @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
   @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
   @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
   @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
+  @ViewChildren(BootsBoxComponent) bootsBoxes!: QueryList<BootsBoxComponent>;
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
   @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
+  @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
+
+
 
   selectedItems:        {[key: string]: string} = {}; 
   selectedRarites:      {[key: string]: string} = {}; 
@@ -93,6 +126,15 @@ export class BoxesGroupComponent {
     }
     if (this.necklaceBoxes) {
       this.necklaceBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.cloakBoxes) {
+      this.cloakBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.ringBoxes) {
+      this.ringBoxes.forEach(component => component.resetSelection());
+    }
+    if (this.primaryWeaponBoxes) {
+      this.primaryWeaponBoxes.forEach(component => component.resetSelection());
     }
     
     // Reset all selected values
@@ -267,6 +309,46 @@ export class BoxesGroupComponent {
     this.calculateEquipment(); 
   }
 
+  onItemSelected_PrimaryWeapon(slot: string, itemName: string) {
+    const slotType = slot.split('item')[1]; 
+    //console.log(slotType)
+    if (this.selectedRarites[`rarityselect_${slotType}`]){
+      this.resetRarity(slotType);
+    }
+  
+    if (this.selectedRatings[`armorrating_${slotType}`]){
+      this.resetRating(slotType);
+    }
+    this.resetEnchantment(slotType);
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+
+  doubleHandedSelected(itemName: string) {
+   for (const item of this.doubleHandlist) {
+      if (item === itemName) {
+        return true; // 
+      }
+    }
+    return false; // Not found in the list
+  }
+   
+  onItemSelected_SecondaryWeapon(slot: string, itemName: string) {
+    const slotType = slot.split('item')[1]; 
+    //console.log(slotType)
+    if (this.selectedRarites[`rarityselect_${slotType}`]){
+      this.resetRarity(slotType);
+    }
+    
+    if (this.selectedRatings[`armorrating_${slotType}`]){
+      this.resetRating(slotType);
+    }
+    this.resetEnchantment(slotType);
+    this.selectedItems[slot] = itemName;
+    this.calculateEquipment(); 
+  }
+
+
   onRaritySelected(slot: string, rarity: number){ 
     this.selectedRarites[slot] = String(rarity);
     const slotType = slot.split('_')[1]; 
@@ -415,4 +497,26 @@ export class BoxesGroupComponent {
       // ... existing code ...
     });
   }
+
+  closeAllDropdownsExcept(except?: any) {
+  // Close all equipment dropdowns
+  [
+    ...this.headBoxes?.toArray() || [],
+    ...this.chestBoxes?.toArray() || [],
+    ...this.glovesBoxes?.toArray() || [],
+    ...this.pantsBoxes?.toArray() || [],
+    ...this.bootsBoxes?.toArray() || [],
+    ...this.necklaceBoxes?.toArray() || [],
+    ...this.cloakBoxes?.toArray() || [],
+    ...this.ringBoxes?.toArray() || [],
+    ...this.primaryWeaponBoxes?.toArray() || [],
+    
+  ].forEach(box => {
+    if (box !== except) {
+      box.showList = false;
+    }
+  });
+}
+
+
 }

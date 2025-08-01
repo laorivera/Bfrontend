@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -62,6 +64,7 @@ export class NecklaceBoxComponent {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   
+  private parent = inject(BoxesGroupComponent, { host: true });
 
   // HTTP METHOD 
   constructor(
@@ -89,7 +92,7 @@ export class NecklaceBoxComponent {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
       },
 
       error: (err) => {
@@ -249,6 +252,7 @@ export class NecklaceBoxComponent {
     const target = event.target as HTMLElement;
     if (!target.closest('.modal-box')) {
       this.showList = !this.showList;
+      this.parent.closeAllDropdownsExcept(this)
     }
     event.stopPropagation(); // Prevent document click from immediately closing it
   }
@@ -290,7 +294,6 @@ export class NecklaceBoxComponent {
     this.rarityBoxColor();
 
     if (this.selectedItem?.name) {
-      this.fetchList_Rating(this.apiConfig.getApiUrl(`/necklaceratinglist/?itemnecklace=${this.selectedItem.name}&rarityselect_necklace=${this.selectedRarity}`));
       this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistnecklace/?itemnecklace=${this.selectedItem.name}`));
     }
     this.raritySelected.emit(this.selectedRarity);

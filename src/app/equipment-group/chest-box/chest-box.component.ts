@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
+import { BoxesGroupComponent } from "../equipment-group.component";
+import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;
@@ -16,6 +18,7 @@ interface ListItem {
   templateUrl: './chest-box.component.html',
   styleUrl: './chest-box.component.css'
 })
+
 export class ChestBoxComponent {
   //store values
   private _classSelection: number = 0;
@@ -62,7 +65,8 @@ export class ChestBoxComponent {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   
-
+  private parent = inject(BoxesGroupComponent, { host: true });
+  
   // HTTP METHOD 
   constructor(
     private http: HttpClient,
@@ -89,7 +93,7 @@ export class ChestBoxComponent {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholder.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
       },
 
       error: (err) => {
@@ -110,18 +114,6 @@ export class ChestBoxComponent {
     for (const rarity in this.selectedEnchantments) {
       this.selectedEnchantments[rarity] = { type: '', value: 0 };
     }
-    /*
-    this.selectedEnchantments['uncommon'].value = 0;
-    this.selectedEnchantments['rare'].value = 0;
-    this.selectedEnchantments['epic'].value = 0;
-    this.selectedEnchantments['legendary'].value = 0;
-    this.selectedEnchantments['unique'].value = 0;
-    this.selectedEnchantments['uncommon'].type = '';
-    this.selectedEnchantments['rare'].type = '';
-    this.selectedEnchantments['epic'].type = '';
-    this.selectedEnchantments['legendary'].type = '';
-    this.selectedEnchantments['unique'].type = '';
-    */
   }
 
 
@@ -259,6 +251,7 @@ export class ChestBoxComponent {
     // Only toggle showList if we're not clicking inside the modal box
     const target = event.target as HTMLElement;
     if (!target.closest('.modal-box')) {
+      this.parent.closeAllDropdownsExcept(this);
       this.showList = !this.showList;
     }
     event.stopPropagation(); // Prevent document click from immediately closing it
@@ -504,4 +497,7 @@ export class ChestBoxComponent {
       default: return 'rarity-default';
     }
   }
+
+
+
 }

@@ -24,7 +24,7 @@ export class CharacterBoxComponent {
     'Warlock', 'Bard', 'Druid', 'Ranger', 'Sorcerer'
   ];
 
-  characterRaces: string[] = [ 'No selection', 'Elf', 'Dark Elf', 'Felidian', 'Phanter', 'Lycan', 'Lizardmen',
+  characterRaces: string[] = [ 'No selection', 'Elf', 'Dark Elf', 'Felidian', 'Panther', 'Lycan', 'Lizardmen',
     'Mummy', 'Orc', 'Zombie', 'Skeleton', 'Elite Skeleton', 'Nightmare Skeleton', 'Skeleton Champion', 'Frost Walker'
    ]
 
