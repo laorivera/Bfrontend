@@ -18,5 +18,12 @@ export class StatsComponent {
   getRoundValue(value: number): number {
     return Math.round(value);
   }
+
+  limitDecimalPlaces(value: number, places: number): string {
+    if (value === 0 && !value) {
+      return '0';
+    }
+    return value.toFixed(places);
+  }
   
 }

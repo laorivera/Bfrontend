@@ -89,7 +89,7 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">Spell Casting Speed:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.SpellCastingSpeed)">{{ getRoundValue(calculationResult.computedstats.SpellCastingSpeed)}}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.SpellCastingSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.SpellCastingSpeed, 2)}}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Equip Speed:</span>
@@ -97,11 +97,11 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">Regular Interaction Speed:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.RegularInteractionSpeed)">{{ getRoundValue(calculationResult.computedstats.RegularInteractionSpeed) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.RegularInteractionSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.RegularInteractionSpeed, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Magical Interaction Speed:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalInteractionSpeed)">{{ getRoundValue(calculationResult.computedstats.MagicalInteractionSpeed) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalInteractionSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicalInteractionSpeed, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Persuasiveness:</span>
@@ -109,23 +109,24 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">Buff Duration:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BuffDuration)">{{ getRoundValue(calculationResult.computedstats.BuffDuration) }}%</span>
+         
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BuffDuration)">{{ limitDecimalPlaces(calculationResult.computedstats.BuffDuration, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Debuff Duration:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.DebuffDuration)">{{ getRoundValue(calculationResult.computedstats.DebuffDuration) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.DebuffDuration)">{{ limitDecimalPlaces(calculationResult.computedstats.DebuffDuration, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Cooldown Reduction:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.CooldownReduction)">{{ getRoundValue(calculationResult.computedstats.CooldownReduction) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.CooldownReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.CooldownReduction, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Armor Penetration:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ArmorPenetration)">{{ getRoundValue(calculationResult.computedstats.ArmorPenetration) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ArmorPenetration)">{{ limitDecimalPlaces(calculationResult.computedstats.ArmorPenetration ,2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Magic Penetration:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicPenetration)">{{ getRoundValue(calculationResult.computedstats.MagicPenetration) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicPenetration)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicPenetration, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Headshot Reduction:</span>
@@ -133,11 +134,11 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">Projectile Damage Reduction:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ProjectileReduction)">{{ getRoundValue(calculationResult.computedstats.ProjectileReduction) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ProjectileReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.ProjectileReduction, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Physical Damage Reduction:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.PhysicalDamageReduction)">{{ getRoundValue(calculationResult.computedstats.PhysicalDamageReduction) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.PhysicalDamageReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.PhysicalDamageReduction, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">From Armor Rating:</span>
@@ -149,7 +150,7 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">Magic Resistance:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalDamageReduction)">{{ getRoundValue(calculationResult.computedstats.MagicalDamageReduction) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalDamageReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicalDamageReduction, 2) }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">From Magic Rating:</span>
@@ -157,7 +158,7 @@
       </div>
       <div class="stat-row">
         <span class="stat-name">From Bonuses:</span>
-        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusMagicalDamageReduction)">{{ getRoundValue(calculationResult.computedstats.BonusMagicalDamageReduction) }}%</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusMagicalDamageReduction)">{{ calculationResult.computedstats.BonusMagicalDamageReduction }}%</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Physical Power Bonus:</span>

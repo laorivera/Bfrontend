@@ -62,7 +62,7 @@ export class BoxesGroupComponent {
     ]
   private _classSelection: number = 0;
   private _raceSelection: string = '';
-  private doubleHanded: boolean = false;
+ //private doubleHanded: boolean = false;
   
   @Input()
   set classSelection(value: number) {
