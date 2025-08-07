@@ -20,7 +20,7 @@ interface ListItem {
 })
 export class HeadBoxComponent {
   //store values
-  private _classSelection: number = 0;
+  private _classSelection: number = 0; //inizializado a 0 (no selection)
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -48,9 +48,8 @@ export class HeadBoxComponent {
     unique: { types: [], values: [] }
   };
 
-  
+
   // send data to parents
-  
   @Output() itemSelected = new EventEmitter<string>();
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() raritySelected = new EventEmitter<number>();
@@ -81,21 +80,18 @@ export class HeadBoxComponent {
     // Reset all selections when class changes
     this.resetSelection();
     this.fetchList_Items(this.apiConfig.getApiUrl(`/helmetlist/${this._classSelection}`));
-    
   }
   get classSelection(): number {
     return this._classSelection;
   }
-
 
   //
   fetchList_Items(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' }); // Add "No selection" option at the beginning for reset
       },
-
       error: (err) => {
         console.error('Error fetching head list:', err);
       },
@@ -110,7 +106,6 @@ export class HeadBoxComponent {
     this.showContextMenu = false;
     this.selectedRarity = 0;
     this.listRating = [];
-  
     for (const rarity in this.selectedEnchantments) {
       this.selectedEnchantments[rarity] = { type: '', value: 0 };
     }

@@ -6,7 +6,7 @@ import { importProvidersFrom } from '@angular/core';
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(HttpClientModule),
-    // Add any other providers you need here
+    
   ],
 }).then(() => {
   console.log('Application bootstrapped successfully');

@@ -4,21 +4,6 @@
       alt="Head Item"
       class="equipment-image"
     />
-    <!--
-    <div class="item-tooltip">
-      <div class="item-name">{{selectedItem?.name || 'No item selected'}}</div>
-      <div class="item-stats">
-        <div class="stat-label">Rarity:</div>
-        <div class="stat-value">{{rarityHead[selectedRarity]}}</div>
-        <div class="stat-label">Rating:</div>
-        <div class="stat-value">{{selectedRating}}</div>
-      </div>
-      <div class="item-description">
-        
-      </div>
-      
-    </div>
-     -->
     @if (showList) {
       <div class="equipment-list"  >
         @for (item of listItems; track item.name) {
